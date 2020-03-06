@@ -2,3 +2,8 @@
 **/yarn.lock
 **/package-lock.json
 server/build
+
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
