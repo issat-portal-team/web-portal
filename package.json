@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "install-client": "(cd client && npm ci);",
+    "start-client": "npm run serve --prefix client",
+    "build-client": "npm run build --prefix client"
+  },
+  "name": "web-portal",
+  "version": "1.0.0",
+  "repository": "https://github.com/issat-portal-team/web-portal.git",
+  "license": "MIT"
+}
