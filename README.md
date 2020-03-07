@@ -12,6 +12,12 @@ A web app built as an educational project for social nerding between book reader
 2. `npm run start-server` to start the server
 3. `npm run build-server` to compile server code (ts)
 
+### For client development
+
+1. `npm run install-client` to install dependencies
+2. `npm run start-client` to start the client
+3. `npm run build-client` to compile client code (ts)
+
 ### Technologies
 
 - [Node](https://nodejs.org/en/download/)

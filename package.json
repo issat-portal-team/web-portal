@@ -2,7 +2,10 @@
   "scripts": {
     "install-server": "(cd server && npm ci);",
     "start-server": "npm run start --prefix server",
-    "build-server": "npm run build --prefix server"
+    "build-server": "npm run build --prefix server",
+    "install-client": "(cd client && npm ci);",
+    "start-client": "npm run serve --prefix client",
+    "build-client": "npm run build --prefix client"
   },
   "name": "web-portal",
   "version": "1.0.0",
