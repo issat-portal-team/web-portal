@@ -1,14 +1,14 @@
 <template>
-  <div id="LogIn-main-container">
+  <form id="LogIn-main-container" action="/login" method="POST">
       <label for="email">Email address</label>
       <input v-model="email" type="email" name="email" id="email">
       <label for="password">Password</label>
       <input v-model="password" type="password" name="password" id="password">
-      <button type="submit" @click="logIn">Log In</button>
+      <button type="submit">Log In</button>
       <div>Not a member?
-        <a>Sign Up</a>
+        <p class="clickable" @click="$emit('clicked')">Sign Up</p>
       </div>
-  </div>
+  </form>
 </template>
 
 <script lang="ts">
@@ -22,7 +22,7 @@
       }
     } ,
     methods:{
-      logIn(): void{
+      logIn(): null{
         return null;
       }
     }
@@ -33,5 +33,12 @@
   #LogIn-main-container{
     display: flex;
     flex-direction: column;
+  }
+  .clickable{
+    color: blue;
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
+    }
   }
 </style>
