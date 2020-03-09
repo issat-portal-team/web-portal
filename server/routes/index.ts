@@ -1,21 +1,8 @@
-import * as express from "express";
+/* eslint-disable no-unused-vars */
+import { Application } from 'express'
+import loginController from './controllers/loginController'
 
-export const register = ( app: express.Application ) => {
-    const oidc = app.locals.oidc;
-
-    // define a route handler for the default home page
-    app.get( "/", ( req: any, res ) => {
-      return res.send({ res: 'home' })
-    } );
-
-    // define a secure route handler for the login page that redirects to /guitars
-    app.get( "/login",  ( req, res ) => {
-        return res.send({ res: 'logged in' })
-    } );
-
-    // define a route to handle logout
-    app.get( "/logout", ( req: any, res ) => {
-        return res.send({ res: 'logged out' })
-    } );
-
-};
+export const register = (app: Application) => {
+  // define a secure route handler for the login page that redirects to /guitars
+  app.post('/login', (req, res) => loginController(req, res))
+}
