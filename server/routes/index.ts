@@ -1,8 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { Application } from 'express'
-import loginController from './controllers/loginController'
+import { Router } from 'express'
+import { LoginController } from './controllers/loginController'
 
-export const register = (app: Application) => {
-  // define a secure route handler for the login page that redirects to /guitars
-  app.post('/login', (req, res) => loginController(req, res))
+export class LoginRoute {
+  public router:Router
+  public loginController : LoginController = new LoginController()
+
+  constructor () {
+    this.router = Router()
+    this.routes()
+  }
+
+  routes () {
+    this.router.post('/login', this.loginController.logIn)
+  }
 }
