@@ -12,6 +12,6 @@ export class LoginRoute {
   }
 
   routes () {
-    this.router.post('/login', this.loginController.logIn)
+    this.router.post('', this.loginController.logIn)
   }
 }
