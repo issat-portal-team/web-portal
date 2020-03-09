@@ -1,18 +1,19 @@
 <template>
-  <form id="LogIn-main-container" action="/login" method="POST">
+  <div id="LogIn-main-container" >
       <label for="email">Email address</label>
       <input v-model="email" type="email" name="email" id="email">
       <label for="password">Password</label>
       <input v-model="password" type="password" name="password" id="password">
-      <button type="submit">Log In</button>
+      <button  @click="logIn">Log In</button>
       <div>Not a member?
         <p class="clickable" @click="$emit('clicked')">Sign Up</p>
       </div>
-  </form>
+  </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import axios from 'axios'
   export default Vue.extend({
     name: 'LogIn' as string,
     data(){
@@ -22,9 +23,16 @@
       }
     } ,
     methods:{
-      logIn(): null{
-        return null;
-      }
+      logIn(): void{
+        if (this.email && this.password) {
+         axios.post('localhost:3003/login',{
+           body:{
+             email:this.email,
+             password: this.password
+           }
+         }).then(res=>console.log(res)).catch(err=>console.error(err))
+        }
+}
     }
   })
 </script>
