@@ -3,9 +3,10 @@ import { Request, Response } from 'express'
 
 export class LoginController {
   public async logIn (req:Request, res:Response): Promise<void> {
-    // Check DB
+    const email = req.body.email
+    const password = req.body.password
     res.send({
-      msg: 'logged in'
+      msg: 'email : '+email+' password : '+password
     })
   }
 }

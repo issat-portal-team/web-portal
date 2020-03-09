@@ -10,6 +10,8 @@ class Server {
       this.app = express()
       this.pathToPublic = path.resolve(__dirname, 'public')
       this.app.use(express.static(this.pathToPublic))
+      this.app.use(express.json())
+      this.app.use(express.urlencoded())
       this.routes()
     }
 
