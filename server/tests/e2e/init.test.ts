@@ -16,7 +16,7 @@ describe('/', () => {
   test('GET / should return placeholder page', async (done) => {
     const _ = await request(app)
       .get('/')
-      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Type', /text\/html.*/)
       .expect(200)
     done()
   })
