@@ -25,7 +25,7 @@
     methods:{
       logIn(): void{
         if (this.email && this.password) {
-         axios.post('localhost:3003/login',{
+         axios.post('http://localhost:3003/login',{
            body:{
              email:this.email,
              password: this.password

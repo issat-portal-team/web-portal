@@ -1,17 +1,12 @@
-/* eslint-disable no-unused-vars */
 import { Router } from 'express'
-import { LoginController } from './controllers/loginController'
+import loginRouter from './login.route'
+import cors from 'cors'
 
-export class LoginRoute {
-  public router:Router
-  public loginController : LoginController = new LoginController()
-
-  constructor () {
-    this.router = Router()
-    this.routes()
-  }
-
-  routes () {
-    this.router.post('', this.loginController.logIn)
-  }
+const router = Router()
+const corsOptions = {
+  origin: 'http://localhost:8080'
 }
+router.use(cors(corsOptions))
+router.use('/login', loginRouter)
+
+export default router
