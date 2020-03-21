@@ -1,0 +1,24 @@
+{
+   "type": "mysql",
+   "host": "localhost",
+   "port": 3308,
+   "username": "root",
+   "password": "",
+   "database": "web-portal-db",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "model/Entity/**/*.ts"
+   ],
+   "migrations": [
+      "model/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "model/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "model/entity",
+      "migrationsDir": "model/migration",
+      "subscribersDir": "model/subscriber"
+   }
+}

@@ -26,11 +26,11 @@
       logIn(): void{
         if (this.email && this.password) {
          axios.post('http://localhost:3003/login',{
-           body:{
+
              email:this.email,
              password: this.password
            }
-         }).then(res=>console.log(res)).catch(err=>console.error(err))
+         ).then(res=>console.log(res)).catch(err=>console.error(err))
         }
 }
     }
