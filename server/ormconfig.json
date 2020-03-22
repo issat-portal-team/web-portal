@@ -6,6 +6,7 @@
    "password": "",
    "database": "web-portal-db",
    "synchronize": true,
+   "keepConnectionAlive": true,
    "logging": false,
    "entities": [
       "model/Entity/**/*.ts"

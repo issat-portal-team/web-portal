@@ -3,7 +3,7 @@ import {createConnection} from "typeorm";
 import {User} from "./Entity/User";
 
 export function connect() {
-  createConnection({
+  let connection=createConnection({
       type: "mysql",
       host: "localhost",
       port: 3308,
@@ -15,13 +15,13 @@ export function connect() {
       ],
       synchronize: true,
       logging: false
-  }).then(connection => {
+  }).then(async connection => {
       // here you can start to work with your entities
   }).catch(error => console.log(error));
 
 }
-export function insertUser(username:string,email:string,password:string){
-  createConnection({
+export async function insertUser(username:string,email:string,password:string){
+  let connection=createConnection({
       type: "mysql",
       host: "localhost",
       port: 3308,
@@ -33,34 +33,23 @@ export function insertUser(username:string,email:string,password:string){
       ],
       synchronize: true,
       logging: false
-  }).then(connection => {
+  }).then(async connection => {
+      let user = new User();
+      user.username = username;
+      user.email = email;
+      user.password = password;
+      let userRepository = connection.getRepository(User);
+      await userRepository.save(user);
+      console.log("User has been saved. User id is", user.id);
+      connection.close();
+    }).catch(error => console.log(error));
 
-    let user = new User();
-    user.username = username;
-    user.email = email;
-    user.password = password;
-    return connection.manager
-            .save(user)
-            .then(user => {
-                console.log("User has been saved. User id is", user.id);
-            });
 
-}).catch(error => console.log(error));
+
+
 }
 export function checkUser(username:string,email:string,password:string){
-  createConnection({
-      type: "mysql",
-      host: "localhost",
-      port: 3308,
-      username: "root",
-      password: "",
-      database: "web-portal-db",
-      entities: [
-          User
-      ],
-      synchronize: true,
-      logging: false
-  }).then(connection => {
+  createConnection().then(connection => {
 
     let user = new User();
     user.username = username;
