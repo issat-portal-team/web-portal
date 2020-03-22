@@ -6,16 +6,16 @@
       <img src="@/assets/bg.svg">
     </div>
     <div class="login-content">
-      <form action="index.html">
+      <div class="form">
         <img src="@/assets/avatar.svg">
-        <h2 class="title">Welcome</h2>
+        <h2 class="title">Log In</h2>
               <div class="input-div one">
                  <div class="i">
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <h5>Email</h5>
-                    <input type="text" class="input" name="email" id="email">
+                    <h5 :class="{fade:emailActive}">Email</h5>
+                    <input @focus="handleFocusEmail" @blur="handleBlurEmail"  v-model="email" type="text" class="input" name="email" id="email" >
                  </div>
               </div>
               <div class="input-div pass">
@@ -23,16 +23,16 @@
                     <i class="fas fa-lock"></i>
                  </div>
                  <div class="div">
-                    <h5>Password</h5>
-                    <input type="password" class="input" name="password" id="password">
+                    <h5 :class="{fade:passwordActive}">Password</h5>
+                    <input @focus="handleFocusPassword" @blur="handleBlurPassword" v-model="password" type="password" class="input" name="password" id="password" >
                  </div>
               </div>
               <a href="#">Forgot Password?</a>
               <input @click="logIn" type="submit" class="btn" value="Login">
               <div>
-              <a  @click="$emit('clicked')">Not a member ?                  Sign Up</a>
+              <a  @click="$emit('clicked')">Not a member ? Sign Up</a>
               </div>
-            </form>
+            </div>
         </div>
     </div>
   </div>
@@ -46,41 +46,38 @@
       data(){
         return{
           email : '' as string,
-          password : '' as string
+          password : '' as string,
+          emailActive : '' as boolean,
+          passwordActive : '' as boolean
         }
       } ,
       methods:{
         logIn(): void{
-          if (this.email && this.password) {
-           axios.post('http://localhost:3003/login',{
-               email:this.email,
-               password: this.password
-             }
-           ).then(res=>console.log(res)).catch(err=>console.error(err))
-          }
-  }
+            if (this.email && this.password) {
+             axios.post('http://localhost:3003/login',{
+                 email:this.email,
+                 password: this.password
+               }
+             ).then(res=>console.log(res)).catch(err=>console.error(err))
+            }
+          },
+        handleFocusPassword(): void{
+            this.passwordActive=true
+        },
+        handleBlurPassword(): void{
+            if(this.email)this.passwordActive=true
+            else this.passwordActive=false
+        },
+        handleFocusEmail(): void{
+            this.emailActive=true
+        },
+        handleBlurEmail(): void{
+            if(this.email)this.emailActive=true
+            else this.emailActive=false
+        }
       }
     })
-    const inputs = document.querySelectorAll(".input");
 
-
-    function addcl(){
-      const parent = this.parentNode.parentNode;
-      parent.classList.add("focus");
-    }
-
-    function remcl(){
-      const parent = this.parentNode.parentNode;
-      if(this.value == ""){
-        parent.classList.remove("focus");
-      }
-    }
-
-
-    inputs.forEach(input => {
-      input.addEventListener("focus", addcl);
-      input.addEventListener("blur", remcl);
-    });
 </script>
 
 <style lang="scss">
@@ -129,7 +126,7 @@
       width: 500px;
     }
 
-    form{
+    .form{
       width: 360px;
     }
 
@@ -305,5 +302,8 @@
       .login-content{
         justify-content: center;
       }
+    }
+    .fade{
+    display:none;
     }
 </style>
