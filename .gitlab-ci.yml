@@ -1,0 +1,57 @@
+image: node:latest
+
+stages:
+  - install_dependencies
+  - build
+  - test
+
+cache:
+  paths:
+    - client/node_modules/
+    - server/node_modules/
+
+install_dependencies:
+  stage: install_dependencies
+  cache:
+    paths:
+      - client/node_modules/
+      - server/node_modules/
+  script:
+    - npm run install-client
+    - npm run install-server
+
+build_client:
+  stage: build
+  script:
+    - npm run build-client
+  cache:
+    paths:
+      - client/node_modules/
+    policy: pull
+  artifacts:
+    paths:
+      - client/dist
+
+build_server:
+  stage: build
+  script:
+    - npm run build-server
+  cache:
+    paths:
+      - server/node_modules/
+    policy: pull
+  artifacts:
+    paths:
+      - server/build
+
+testing:
+  stage: test
+  script:
+    - npm run test-client
+    - npm run test-server
+  cache:
+    paths:
+      - client/node_modules/
+      - server/node_modules/
+    policy: pull
+  dependencies: []
