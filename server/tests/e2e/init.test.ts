@@ -1,20 +1,21 @@
-import { app } from '../../src/app'
+import app, { BootstrapSettings } from '../../src/app'
+
 import request from 'supertest'
-import { SERVER_PORT } from '../../src/config'
+import { env } from '../../src/config'
 
 describe('/', () => {
-  let server:any
+  let settings:BootstrapSettings
 
-  beforeEach(() => {
-    server = app.listen(SERVER_PORT, () => console.log('Listening on port 3000'))
+  beforeEach(async () => {
+    settings = await app(true)
   })
 
   afterEach(async () => {
-    await server.close()
+    await settings.connection.close()
   })
 
   test('GET / should return placeholder page', async (done) => {
-    const _ = await request(app)
+    const _ = await request(settings.app)
       .get('/')
       .expect('Content-Type', /text\/html.*/)
       .expect(200)

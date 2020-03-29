@@ -1,5 +1,7 @@
 **/node_modules
 server/build
+.env*
+!server/.env.example
 
 .vscode/*
 !.vscode/extensions.json
