@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon .",
-    "copy-to-build": "ncp ./src/public/ ./build/src/public/ &&  ncp ./.env ./build/.env && ncp ./.env.test ./build/.env.test",
-    "build": "tsc --p . && npm run copy-to-build",
+    "cp-public-to-build": "ncp ./src/public/ ./build/src/public/",
+    "build": "tsc --p . && npm run cp-public-to-build",
     "test": "jest -i",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js"
   },
