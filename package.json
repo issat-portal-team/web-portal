@@ -13,5 +13,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/issat-portal-team/web-portal.git",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^13.11.0",
+    "reflect-metadata": "^0.1.13",
+    "sql.js": "^1.2.2",
+    "typeorm": "^0.2.24",
+    "typescript": "^3.8.3"
+  }
 }
