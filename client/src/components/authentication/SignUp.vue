@@ -14,7 +14,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <input placeholder="Username" v-model="signupForm.username" type="text" class="input" name="username" id="username" >
+                    <input placeholder="username" v-model="signupForm.username" type="text" class="input" name="username" id="username" >
                  </div>
               </div>
               <div class="input-div one">
@@ -45,7 +45,6 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    import axios from 'axios'
     import { UserModule } from '../../store/modules/user'
     export default Vue.extend({
       name: 'LogIn' as string,

@@ -14,7 +14,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <input placeholder="user@domaine.com" v-model="loginForm.username" type="text" class="input" name="username" id="username" >
+                    <input placeholder="username" v-model="loginForm.username" type="text" class="input" name="username" id="username" >
                  </div>
               </div>
               <div class="input-div pass">
@@ -44,9 +44,7 @@
         loginForm: {
           username: '',
           password: ''
-        },
-        usernameActive : false,
-        passwordActive : false
+        }
       }
     } ,
     methods:{
@@ -60,20 +58,7 @@
           })
         }
       },
-      handleFocusPassword(): void{
-          this.passwordActive=true
-      },
-      handleBlurPassword(): void{
-          if(this.loginForm.username)this.passwordActive=true
-          else this.passwordActive=false
-      },
-      handleFocususername(): void{
-          this.usernameActive=true
-      },
-      handleBlurusername(): void{
-          if(this.loginForm.username)this.usernameActive=true
-          else this.usernameActive=false
-      }
+
     }
   })
 
