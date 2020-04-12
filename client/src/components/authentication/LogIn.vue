@@ -14,8 +14,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <h5 :class="{fade:emailActive}">Email</h5>
-                    <input @focus="handleFocusEmail" @blur="handleBlurEmail"  v-model="email" type="text" class="input" name="email" id="email" >
+                    <input placeholder="user@domaine.com" v-model="email" type="text" class="input" name="email" id="email" >
                  </div>
               </div>
               <div class="input-div pass">
@@ -23,15 +22,12 @@
                     <i class="fas fa-lock"></i>
                  </div>
                  <div class="div">
-                    <h5 :class="{fade:passwordActive}">Password</h5>
-                    <input @focus="handleFocusPassword" @blur="handleBlurPassword" v-model="password" type="password" class="input" name="password" id="password" >
+                    <input placeholder="password" v-model="password" type="password" class="input" name="password" id="password" >
                  </div>
               </div>
-              <a href="#">Forgot Password?</a>
+              <p href="#" class="hover-effect">Forgot Password?</p>
               <input @click="logIn" type="submit" class="btn" value="Login">
-              <div>
-              <a  @click="$emit('clicked')">Not a member ? Sign Up</a>
-              </div>
+              <p >Not a member ?<span @click="$emit('clicked')" class="hover-effect"> Sign Up</span></p>
             </div>
         </div>
     </div>
@@ -46,9 +42,7 @@
       data(){
         return{
           email : '' as string,
-          password : '' as string,
-          emailActive : '' as boolean,
-          passwordActive : '' as boolean
+          password : '' as string
         }
       } ,
       methods:{
@@ -60,21 +54,7 @@
                }
              ).then(res=>console.log(res)).catch(err=>console.error(err))
             }
-          },
-        handleFocusPassword(): void{
-            this.passwordActive=true
-        },
-        handleBlurPassword(): void{
-            if(this.email)this.passwordActive=true
-            else this.passwordActive=false
-        },
-        handleFocusEmail(): void{
-            this.emailActive=true
-        },
-        handleBlurEmail(): void{
-            if(this.email)this.emailActive=true
-            else this.emailActive=false
-        }
+          }
       }
     })
 
@@ -230,7 +210,7 @@
       margin-bottom: 4px;
     }
 
-    a{
+    p {
       display: block;
       text-align: right;
       text-decoration: none;
@@ -239,8 +219,9 @@
       transition: .3s;
     }
 
-    a:hover{
+    .hover-effect:hover{
       color: #38d39f;
+      cursor: pointer;
     }
 
     .btn{
@@ -302,8 +283,5 @@
       .login-content{
         justify-content: center;
       }
-    }
-    .fade{
-    display:none;
     }
 </style>

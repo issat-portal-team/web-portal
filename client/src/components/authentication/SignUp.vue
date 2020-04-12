@@ -14,8 +14,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <h5 :class="{fade:nameActive}">Username</h5>
-                    <input @focus="handleFocusName" @blur="handleBlurName"  v-model="username" type="text" class="input" name="username" id="username" >
+                    <input placeholder="Username" v-model="username" type="text" class="input" name="username" id="username" >
                  </div>
               </div>
               <div class="input-div one">
@@ -23,8 +22,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <h5 :class="{fade:emailActive}">Email</h5>
-                    <input @focus="handleFocusEmail" @blur="handleBlurEmail"  v-model="email" type="text" class="input" name="email" id="email" >
+                    <input placeholder="user@domaine.com" v-model="email" type="text" class="input" name="email" id="email" >
                  </div>
               </div>
               <div class="input-div pass">
@@ -32,13 +30,12 @@
                     <i class="fas fa-lock"></i>
                  </div>
                  <div class="div">
-                    <h5 :class="{fade:passwordActive}">Password</h5>
-                    <input @focus="handleFocusPassword" @blur="handleBlurPassword" v-model="password" type="password" class="input" name="password" id="password" >
+                    <input placeholder="password" v-model="password" type="password" class="input" name="password" id="password" >
                  </div>
               </div>
               <input @click="signUp" type="submit" class="btn" value="Sign Up">
               <div>
-              <a  @click="$emit('clicked')">You're a member ? Log In</a>
+              <p>You're a member ?<span @click="$emit('clicked')" class="hover-effect"> Log In</span></p>
               </div>
             </div>
         </div>
@@ -55,10 +52,7 @@
         return{
           username : '' as string,
           email : '' as string,
-          password : '' as string,
-          emailActive : '' as boolean,
-          passwordActive : '' as boolean,
-          nameActive : '' as boolean
+          password : '' as string
         }
       } ,
       methods:{
@@ -71,28 +65,7 @@
                }
              ).then(res=>console.log(res)).catch(err=>console.error(err))
             }
-          },
-          handleFocusName(): void{
-              this.nameActive=true
-          },
-          handleBlurName(): void{
-              if(this.username)this.nameActive=true
-              else this.nameActive=false
-          },
-        handleFocusPassword(): void{
-            this.passwordActive=true
-        },
-        handleBlurPassword(): void{
-            if(this.email)this.passwordActive=true
-            else this.passwordActive=false
-        },
-        handleFocusEmail(): void{
-            this.emailActive=true
-        },
-        handleBlurEmail(): void{
-            if(this.email)this.emailActive=true
-            else this.emailActive=false
-        }
+          }
       }
     })
 
@@ -248,7 +221,7 @@
       margin-bottom: 4px;
     }
 
-    a{
+    p{
       display: block;
       text-align: right;
       text-decoration: none;
@@ -257,8 +230,9 @@
       transition: .3s;
     }
 
-    a:hover{
+    .hover-effect:hover{
       color: #38d39f;
+      cursor: pointer;
     }
 
     .btn{
@@ -320,8 +294,5 @@
       .login-content{
         justify-content: center;
       }
-    }
-    .fade{
-    display:none;
     }
 </style>
