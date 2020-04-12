@@ -28,9 +28,14 @@ export default async (E2E_TEST: boolean = false): Promise<BootstrapSettings> => 
 
   const conn = await loadDatabase()
 
+  var corsOptions = {
+    // Allow all for now
+    origin: '*'
+  }
+
   // Create the express app with the controllers and middlewares
   const app = createExpressServer({
-    cors: false,
+    cors: corsOptions,
     routePrefix: env.app.routePrefix,
     controllers: env.app.dirs.controllers,
     middlewares: env.app.dirs.middlewares,
