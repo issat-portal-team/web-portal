@@ -15,26 +15,35 @@ export class UserController {
   ) { }
 
   @Post()
-  public create (@Body() body: UserCreateRequest): Promise<User> {
-    const user = new User()
+  public async create (@Body() body: UserCreateRequest): Promise<UserLoginResponse> {
+    let user = new User()
     user.email = body.email
     user.username = body.username
     user.password = body.password
 
-    return this.userService.create(user)
+    user = await this.userService.create(user)
+    return {
+      id: user.id,
+      token: this.authService.generateJwtToken(user),
+      username: user.username,
+      email: user.email
+    }
   }
 
   @Post('/login')
   public async login (@Body() body: UserLoginRequest): Promise<UserLoginResponse> {
-    const user = await this.userService.findByUsername(body.username)
+    let user = await this.userService.findByUsername(body.username)
     if (!user) {
       throw new UnauthorizedError('Auth failure')
     }
     const passwordCheck = await User.comparePassword(user, body.password)
     if (passwordCheck === true) {
+      user = user as User
       return {
-        id: (user as User).id,
-        token: this.authService.generateJwtToken(user)
+        id: user.id,
+        token: this.authService.generateJwtToken(user),
+        username: user.username,
+        email: user.email
       }
     } else {
       throw new UnauthorizedError('Auth failure')

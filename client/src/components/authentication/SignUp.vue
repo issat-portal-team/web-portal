@@ -14,7 +14,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <input placeholder="Username" v-model="username" type="text" class="input" name="username" id="username" >
+                    <input placeholder="Username" v-model="signupForm.username" type="text" class="input" name="username" id="username" >
                  </div>
               </div>
               <div class="input-div one">
@@ -22,7 +22,7 @@
                     <i class="fas fa-user"></i>
                  </div>
                  <div class="div">
-                    <input placeholder="user@domaine.com" v-model="email" type="text" class="input" name="email" id="email" >
+                    <input placeholder="user@domaine.com" v-model="signupForm.email" type="text" class="input" name="email" id="email" >
                  </div>
               </div>
               <div class="input-div pass">
@@ -30,7 +30,7 @@
                     <i class="fas fa-lock"></i>
                  </div>
                  <div class="div">
-                    <input placeholder="password" v-model="password" type="password" class="input" name="password" id="password" >
+                    <input placeholder="password" v-model="signupForm.password" type="password" class="input" name="password" id="password" >
                  </div>
               </div>
               <input @click="signUp" type="submit" class="btn" value="Sign Up">
@@ -46,24 +46,22 @@
 <script lang="ts">
     import Vue from 'vue'
     import axios from 'axios'
+    import { UserModule } from '../../store/modules/user'
     export default Vue.extend({
       name: 'LogIn' as string,
       data(){
         return{
-          username : '' as string,
-          email : '' as string,
-          password : '' as string
+          signupForm:{
+            email : '' ,
+            password : '',
+            username:''
+          },
         }
       } ,
       methods:{
         signUp(): void{
-            if (this.email && this.password && this.username) {
-             axios.post('http://localhost:3003/login',{
-                 username:this.username,
-                 email:this.email,
-                 password: this.password
-               }
-             ).then(res=>console.log(res)).catch(err=>console.error(err))
+            if (this.signupForm.email && this.signupForm.password && this.signupForm.username) {
+              UserModule.Register(this.signupForm)
             }
           }
       }
