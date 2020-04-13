@@ -25,5 +25,25 @@ export default Vue.extend({
 </script>
 
 <style>
-
+.img{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+.margin {
+  margin-top: 10%;
+  margin-right: 10%;
+}
+    .hover-effect:hover{
+      color: #38d39f;
+      cursor: pointer;
+    }
+    p{
+      display: block;
+      text-align: right;
+      text-decoration: none;
+      color: #999;
+      font-size: 0.9rem;
+      transition: .3s;
+    }
 </style>
