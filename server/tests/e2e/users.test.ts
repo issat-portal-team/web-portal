@@ -8,7 +8,7 @@ import { User } from '../../src/app/models/user'
 import { runDbSeed } from './utils/seed'
 
 describe('/api/users', () => {
-  let settings:BootstrapSettings
+  let settings: BootstrapSettings
 
   beforeAll(async () => {
     settings = await app(true)
@@ -56,13 +56,14 @@ describe('/api/users', () => {
     expect(response.body.token).toBeDefined()
 
     const response2 = await request(settings.app)
-      .get('/api/users/auth')
+      .get('/api/users/info')
       .set('Authorization', 'Bearer ' + response.body.token)
       .expect('Content-Type', /json/)
       .expect(200)
 
     expect(response2.body.id).toBeDefined()
     expect(response2.body.username).toBeDefined()
+    expect(response2.body.email).toBeDefined()
 
     done()
   })

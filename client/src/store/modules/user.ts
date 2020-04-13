@@ -1,5 +1,5 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { login, logout, register } from '@/api/users'
+import { login, logout, register, getUserInfo } from '@/api/users'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
 
@@ -51,6 +51,26 @@ class User extends VuexModule implements UserState {
         } catch (err) {
             console.log(err)
         }
+    }
+
+
+    @Action
+    public async GetUserInfo() {
+        if (this.token === '') {
+            throw Error('GetUserInfo: token is undefined!')
+        }
+        const { data } = await getUserInfo()
+        if (!data) {
+            throw Error('Verification failed, please Login again.')
+        }
+        if (!data.email || !data.username || !data.id || !data.token) {
+            throw Error('GetUserInfo: failed getting user info')
+        }
+        setToken(data.token)
+        this.SET_EMAIL(data.email)
+        this.SET_USERNAME(data.username)
+        this.SET_TOKEN(data.token)
+        this.SET_ID(data.id)
     }
 
 

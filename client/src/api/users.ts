@@ -19,3 +19,9 @@ export const logout = () =>
         url: '/users/logout',
         method: 'post'
     })
+
+export const getUserInfo = () =>
+    request({
+        url: '/users/info',
+        method: 'GET'
+    })
