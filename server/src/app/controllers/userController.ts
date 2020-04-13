@@ -6,6 +6,8 @@ import { JsonController, Body, Post, UnauthorizedError, Get, Authorized, Current
 import { UserLoginRequest } from './requests/userLoginRequest'
 import { UserLoginResponse } from './responses/userLoginResponse'
 import { JwtAuthService } from '../auth/jwtAuthService'
+import ApiError from './errors/apiError'
+import { ApiCode } from './errors/apiCode'
 
 @JsonController('/users')
 export class UserController {
@@ -34,7 +36,7 @@ export class UserController {
   public async login (@Body() body: UserLoginRequest): Promise<UserLoginResponse> {
     let user = await this.userService.findByUsername(body.username)
     if (!user) {
-      throw new UnauthorizedError('Auth failure')
+      throw new ApiError(ApiCode.UsernamePasswordError, 401)
     }
     const passwordCheck = await User.comparePassword(user, body.password)
     if (passwordCheck === true) {
@@ -46,13 +48,19 @@ export class UserController {
         email: user.email
       }
     } else {
-      throw new UnauthorizedError('Auth failure')
+      throw new ApiError(ApiCode.UsernamePasswordError, 401)
     }
   }
 
-  @Get('/auth')
+  @Get('/info')
   @Authorized()
-  public testAuth (@CurrentUser() user?: User): Promise<User> {
-    return new Promise((resolve, reject) => { resolve(user) })
+  public async testAuth (@CurrentUser() user?: User): Promise<UserLoginResponse> {
+    const currentUser = user as User
+    return {
+      id: currentUser.id,
+      token: this.authService.generateJwtToken(currentUser),
+      username: currentUser.username,
+      email: currentUser.email
+    }
   }
 }

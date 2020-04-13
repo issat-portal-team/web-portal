@@ -14,10 +14,16 @@ class User extends VuexModule implements UserState {
     public token = getToken() || ''
     public username = ''
     public email = ''
+    public id = ''
 
     @Mutation
     private SET_TOKEN(token: string) {
         this.token = token
+    }
+
+    @Mutation
+    private SET_ID(id: string) {
+        this.id = id
     }
 
     @Mutation
@@ -35,11 +41,16 @@ class User extends VuexModule implements UserState {
         let username = userInfo.username
         const password = userInfo.password
         username = username.trim()
-        const { data } = await login({ username, password })
-        setToken(data.token)
-        this.SET_EMAIL(data.email)
-        this.SET_USERNAME(data.username)
-        this.SET_TOKEN(data.token)
+        try {
+            const { data } = await login({ username, password })
+            setToken(data.token)
+            this.SET_EMAIL(data.email)
+            this.SET_USERNAME(data.username)
+            this.SET_TOKEN(data.token)
+            this.SET_ID(data.id)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
 
@@ -49,11 +60,16 @@ class User extends VuexModule implements UserState {
         const password = userInfo.password
         const username = userInfo.username
         email = email.trim()
-        const { data } = await register({ email, password, username })
-        setToken(data.token)
-        this.SET_EMAIL(data.email)
-        this.SET_USERNAME(data.username)
-        this.SET_TOKEN(data.token)
+        try {
+            const { data } = await register({ email, password, username })
+            setToken(data.token)
+            this.SET_EMAIL(data.email)
+            this.SET_USERNAME(data.username)
+            this.SET_TOKEN(data.token)
+            this.SET_ID(data.id)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     @Action
@@ -67,8 +83,7 @@ class User extends VuexModule implements UserState {
         if (this.token === '') {
             throw Error('LogOut: token is undefined!')
         }
-        await logout()
-        removeToken()
+        this.ResetToken()
     }
 }
 
