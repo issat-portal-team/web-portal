@@ -10,6 +10,7 @@
           <div class="field">
             <h2 class="title">Log In</h2>
           </div>
+          <form @keyup.enter="logIn">
           <div class="field">
             <b-field label="Username" label-position="on-border">
               <b-input v-model="loginForm.username"></b-input>
@@ -17,9 +18,10 @@
           </div>
           <div class="field">
             <b-field label="Password" label-position="on-border">
-              <b-input type="password" v-model="loginForm.password"></b-input>
+              <b-input type="password" v-model="loginForm.password" password-reveal></b-input>
             </b-field>
           </div>
+          </form>
           <div class="field">
             <p href="#" class="hover-effect">Forgot Password?</p>
           </div>
@@ -64,7 +66,7 @@ export default Vue.extend({
     logIn() {
       // TODO: username and password validation
       if (this.loginForm.username && this.loginForm.password) {
-        UserModule.Login(this.loginForm).then(_ => {
+        UserModule.Login(this.loginForm).then(() => {
           // TODO: Redirect to initial visited page (redirect in query)
           this.$router.push({
             path: "/"

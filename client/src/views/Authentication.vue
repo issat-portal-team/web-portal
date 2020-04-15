@@ -46,4 +46,18 @@ export default Vue.extend({
       font-size: 0.9rem;
       transition: .3s;
     }
+        @media screen and (max-width: 900px){
+      .container{
+        grid-template-columns: 1fr;
+      }
+      .img{
+        display: none;
+      }
+      .wave{
+        display: none;
+      }
+      .login-content{
+        justify-content: center;
+      }
+    }
 </style>

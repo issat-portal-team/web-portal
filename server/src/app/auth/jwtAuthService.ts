@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Request } from 'express'
 import { Service } from 'typedi'
 import { OrmRepository } from 'typeorm-typedi-extensions'
 
@@ -19,7 +19,7 @@ export class JwtAuthService {
         @OrmRepository() private userRepository: UserRepository
   ) { }
 
-  public verifyJwtToken (req: express.Request): JwtPayload {
+  public verifyJwtToken (req: Request): JwtPayload {
     let token = req.header('authorization') as string
     token = token.replace(/Bearer\s+/, '')
     const verifyOptions = {

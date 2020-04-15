@@ -41,6 +41,15 @@ class User extends VuexModule implements UserState {
         let username = userInfo.username
         const password = userInfo.password
         username = username.trim()
+
+        // login({ username, password }).then(({ data }) => {
+        //     setToken(data.token)
+        //     this.SET_EMAIL(data.email)
+        //     this.SET_USERNAME(data.username)
+        //     this.SET_TOKEN(data.token)
+        //     this.SET_ID(data.id)
+        // }).catch(err => console.log(err))
+
         try {
             const { data } = await login({ username, password })
             setToken(data.token)
@@ -80,16 +89,26 @@ class User extends VuexModule implements UserState {
         const password = userInfo.password
         const username = userInfo.username
         email = email.trim()
-        try {
-            const { data } = await register({ email, password, username })
+
+        register({ email, password, username }).then(({ data }) => {
+            console.log(data)
             setToken(data.token)
             this.SET_EMAIL(data.email)
             this.SET_USERNAME(data.username)
             this.SET_TOKEN(data.token)
             this.SET_ID(data.id)
-        } catch (err) {
-            console.log(err)
-        }
+        }).catch(err => console.log(err))
+
+        // try {
+        //     const { data } = await register({ email, password, username })
+        //     setToken(data.token)
+        //     this.SET_EMAIL(data.email)
+        //     this.SET_USERNAME(data.username)
+        //     this.SET_TOKEN(data.token)
+        //     this.SET_ID(data.id)
+        // } catch (err) {
+        //     console.log(err)
+        // }
     }
 
     @Action
