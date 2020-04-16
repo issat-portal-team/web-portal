@@ -37,5 +37,11 @@ export const env = {
     database: getEnvVar('TYPEORM_DATABASE'),
     synchronize: toBool(getEnvVarOptional('TYPEORM_SYNCHRONIZE')as string),
     logging: getEnvVar('TYPEORM_LOGGING')
+  },
+  providers: {
+    google: {
+      endPoint: getEnvVarOptional('GOOGLE_API_ENDPOINT'),
+      apiKey: getEnvVarOptional('GOOGLE_API_KEY')
+    }
   }
 }
