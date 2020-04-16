@@ -1,12 +1,25 @@
 <template>
-  <div v-if="loggedIn">
-    <h1>Hello you are {{profile.username}}</h1>
-    <h2>Your email is {{profile.email}}</h2>
-    <input type="button" value="disconnect" @click="logout" />
-  </div>
-  <div v-else>
-    <h1>Hello you are a new user</h1>
-    <input type="button" value="login" @click="goToLogin" />
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img src="@/assets/avatar.svg" />
+          </figure>
+        </div>
+        <div v-if="loggedIn" class="media-content">
+          <p class="title is-4">{{profile.username}}</p>
+          <p class="subtitle is-6">{{profile.email}}</p>
+        </div>
+        <div v-else class="media-content">
+          <p class="title is-4">Not logged in</p>
+        </div>
+      </div>
+    </div>
+    <footer class="card-footer">
+      <a v-if="loggedIn" @click="logout" class="card-footer-item">Disconnect</a>
+      <a v-else @click="goToLogin" class="card-footer-item">Login</a>
+    </footer>
   </div>
 </template>
 

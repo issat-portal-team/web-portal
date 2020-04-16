@@ -1,7 +1,13 @@
 <template>
   <div class="home">
-    <strong>ISSAT PORTAL :)</strong>
-    <AuthTestCheck />
+    <div class="columns">
+      <div class="column is-three-quarters">
+        <strong>ISSAT PORTAL :)</strong>
+      </div>
+      <div class="column">
+        <AuthTestCheck />
+      </div>
+    </div>
   </div>
 </template>
 
