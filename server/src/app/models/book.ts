@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { IsNotEmpty } from 'class-validator'
+import { UserBook } from './userbook'
 
 @Entity()
 export class Book {
@@ -27,4 +28,7 @@ export class Book {
 
     @Column()
     public publishedDate!: Date;
+
+    @OneToMany(() => UserBook, ub => ub.book)
+    public bookConnection!: Promise<UserBook[]>;
 }
