@@ -2,10 +2,9 @@ import router from './router'
 import { Route } from 'vue-router'
 import { UserModule } from '@/store/modules/user'
 
-const whiteList = ['/auth', '/']
+const whiteList = ['/auth', '/', '/news']
 
-
-router.beforeEach(async (to: Route, _: Route, next: any) => {
+router.beforeEach(async (to: Route, _: Route, next: any) => { //eslint-disable-line
 
     // Determine whether the user has logged in
     if (UserModule.token) {
