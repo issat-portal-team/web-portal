@@ -6,7 +6,7 @@ export async function loadDatabase () {
 
   // Environment variables can overwrite the getConnectionOptions properties
   const connectionOptions = Object.assign(loadedConnectionOptions, {
-    type: env.db.type as any,
+    type: env.db.type as any, //eslint-disable-line
     host: env.db.host,
     port: env.db.port,
     username: env.db.username,

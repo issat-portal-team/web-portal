@@ -13,7 +13,7 @@ export const env = {
   isDevelopment: process.env.NODE_ENV === 'development',
   app: {
     name: getEnvVar('APP_NAME'),
-    version: (pkg as any).version,
+    version: (pkg as any).version, //eslint-disable-line
     port: process.env.PORT || getEnvVar('APP_PORT'),
     routePrefix: getEnvVar('APP_ROUTE_PREFIX'),
     dirs: {

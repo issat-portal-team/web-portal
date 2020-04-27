@@ -10,7 +10,7 @@ export class UserService {
         @OrmRepository() private userRepository: UserRepository
   ) { }
 
-  public findByUsername (username: string) : Promise<User | undefined> {
+  public findByUsername (username: string): Promise<User | undefined> {
     return this.userRepository.findOne({ username: username })
   }
 

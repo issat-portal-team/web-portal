@@ -5,7 +5,7 @@ export default class ApiError extends HttpError {
     public errorCode: ApiCode;
     public args: any[];
 
-    constructor (errorCode: ApiCode, statusCode:number, args: any[] = []) {
+    constructor (errorCode: ApiCode, statusCode: number, args: any[] = []) {
       super(statusCode)
       Object.setPrototypeOf(this, ApiError.prototype)
       this.errorCode = errorCode

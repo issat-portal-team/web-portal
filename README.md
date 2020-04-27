@@ -18,6 +18,9 @@ A web app built as an educational project for social nerding between book reader
 #### Generating a new migration through typeorm
 `npm run typeorm migration:generate -- -n MigrationName`
 
+#### Revert last migration through typeorm
+`npm run typeorm migration:revert`
+
 #### Tests
 1. `npm run install-server` to install dependencies
 2. Create a .env.test file in ./server with the help of .env.example

@@ -42,7 +42,7 @@ export class JwtAuthService {
       id: user.id,
       username: user.username
     }
-    var signOptions = {
+    const signOptions = {
       issuer: env.jwt.issuer,
       expiresIn: env.jwt.expires
     }

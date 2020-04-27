@@ -20,7 +20,7 @@ export interface BootstrapSettings {
     connection: Connection;
 }
 
-export default async (E2E_TEST: boolean = false): Promise<BootstrapSettings> => {
+export default async (E2E_TEST = false): Promise<BootstrapSettings> => {
 // Register inversion of control containers
   routingUseContainer(Container)
   ormUseContainer(Container)
@@ -28,7 +28,7 @@ export default async (E2E_TEST: boolean = false): Promise<BootstrapSettings> => 
 
   const conn = await loadDatabase()
 
-  var corsOptions = {
+  const corsOptions = {
     // Allow all for now
     origin: '*'
   }
