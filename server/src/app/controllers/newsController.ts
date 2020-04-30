@@ -1,4 +1,4 @@
-import { JsonController, Post, Body, Get } from 'routing-controllers'
+import { JsonController, Post, Body, Get, Param, QueryParam } from 'routing-controllers'
 import { NewsService } from '../services/newsService'
 import { NewsCreateRequest } from './requests/news/newsCreateRequest'
 import { NewsResponse } from './responses/newsResponse'
@@ -24,6 +24,16 @@ export class NewsController {
         newsDate.date = body.createdDate.date
 
         const data = await this.newsService.create(news,newsDate)
+        return this.toNewsResponseFormat(data)
+    }
+
+    @Get()
+    public async getNews(@QueryParam('page') pagination: number): Promise<NewsResponse>{
+        const data = await this.newsService.fetchLatestNews(pagination)
+        return this.toNewsResponseFormat(data)
+    }
+
+    private toNewsResponseFormat(data: News[]): NewsResponse{
         const responses = new NewsResponse()
         responses.news= []
         data.forEach((el)=>{
@@ -32,44 +42,11 @@ export class NewsController {
                 title: el.title,
                 link: el.link,
                 source: el.source,
-                publishedDate: el.publishedDate,
+                publishedDate: el.publishedDate.toLocaleDateString(),
                 createdDate: el.createdDate
             }
             responses.news.push(item)
         })
         return responses
     }
-
-    // @Get()
-    // public async getNews(): Promise<NewsResponse>{
-
-    // }
-
-
-    // {
-    //  "news" :
-    //  [
-    //   {
-    //     "title" : "this is a fake title",
-    //     "source" : "this is a fake source",
-    //     "link" : "www.fakeLink.com",
-    //     "publishedDate": "2020-04-26T12:59:16.102Z",
-    //   },
-    //   {
-    //      "title" : "this is a fake title",
-    //      "source" : "this is a fake source",
-    //      "link" : "www.fakeLink.com",
-    //      "publishedDate": "2020-04-26T12:59:16.102Z",
-    //    },
-    //    {
-    //      "title" : "this is a fake title",
-    //      "source" : "this is a fake source",
-    //      "link" : "www.fakeLink.com",
-    //      "publishedDate": "2020-04-26T12:59:16.102Z",
-    //    }
-    //  ],
-    //  "createdDate" : {
-    //     "date": "2020-04-26T20:59:16.102Z"
-    //  }
-    // }
 }

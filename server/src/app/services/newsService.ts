@@ -33,7 +33,13 @@ export class NewsService {
         return this.dateNewsRepository.findOne({ where: { date: Equal(date) } })
     }
 
-    public fetchLatestNews(): void {
-        //TODO
-    }
+    public async fetchLatestNews(pagination: number): Promise<News[]> {
+        const newsCountToFetch = 10
+        return this.newsRepository.createQueryBuilder('n')
+            .innerJoinAndSelect('n.createdDate', 'news')
+            .orderBy('news.date', 'DESC')
+            .skip(pagination*newsCountToFetch)
+            .take(newsCountToFetch)
+            .getMany()
+        }
 }
