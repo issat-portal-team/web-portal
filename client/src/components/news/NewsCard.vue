@@ -1,32 +1,33 @@
 <template>
   <div class="card">
-    <div
-      class="card-content card-content-left title is-5"
-    >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum beatae esse dolorum, similique odit sapiente?</div>
-    <div class="card-footer">
-      <div class="source-left">
-        New York Times
-      </div>
-      <div class="time-right">12.06.2020</div>
+    <div class="card-content card-content-left title is-5">{{news.title}}</div>
+    <div class="card-footer flex-display">
+      <div class="source-left">{{news.source}}</div>
+      <div class="time-right">{{news.publishedDate}}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
+//import { News } from "../../models/news";
 export default Vue.extend({
-    name:'NewsCard'
-})
+  name: "NewsCard" as string,
+  props: ["news"]
+});
 </script>
 
 <style lang="scss">
-  .card-content-left{
-    text-align: start;
-  }
-  .source-left{
-    text-align: left;
-  }
-  .time-right{
-    text-align: end;
-  }
+.card-content-left {
+  text-align: start;
+}
+.source-left {
+  text-align: left;
+}
+.time-right {
+  text-align: end;
+}
+.flex-display {
+  justify-content: space-between;
+}
 </style>
