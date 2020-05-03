@@ -5,6 +5,6 @@ export class ItemResponse {
     public title!: string
     public source!: string
     public link!: string
-    public publishedDate!: string
+    public publishedDate!: Date
     public createdDate!: DateNewsResponse
 }

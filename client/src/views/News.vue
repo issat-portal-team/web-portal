@@ -34,7 +34,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      newsList: [],
+      newsList: [] as any[], //eslint-disable-line
       page: 0 as number,
       canLoadMore: true as boolean,
       loading: false as boolean
@@ -60,9 +60,12 @@ export default Vue.extend({
       this.page++;
       getNews(this.page).then(({ data }) => {
         const { news } = data;
-        if (news.length < newsNumberEachLoad) this.canLoadMore = false;
-        this.newsList.push(...news);
-        this.loading = false;
+        if (news.length < newsNumberEachLoad)
+        {
+          this.canLoadMore = false;
+          this.newsList.push(...news);
+          this.loading = false;
+        }
       });
     }
   }

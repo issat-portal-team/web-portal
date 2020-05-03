@@ -42,7 +42,7 @@ export class NewsController {
                 title: el.title,
                 link: el.link,
                 source: el.source,
-                publishedDate: el.publishedDate.toLocaleDateString(),
+                publishedDate: el.publishedDate,
                 createdDate: el.createdDate
             }
             responses.news.push(item)
