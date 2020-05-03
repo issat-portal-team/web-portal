@@ -60,12 +60,10 @@ export default Vue.extend({
       this.page++;
       getNews(this.page).then(({ data }) => {
         const { news } = data;
-        if (news.length < newsNumberEachLoad)
-        {
-          this.canLoadMore = false;
+        if (news.length < newsNumberEachLoad)this.canLoadMore = false;
           this.newsList.push(...news);
           this.loading = false;
-        }
+
       });
     }
   }
