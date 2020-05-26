@@ -1,9 +1,13 @@
-image: node:latest
+image: node:12.16.2-stretch
 
 stages:
-  - install_dependencies
+  - install
   - build
   - test
+
+variables:
+  MYSQL_DATABASE: $mysql_db
+  MYSQL_ROOT_PASSWORD: $mysql_root_pw
 
 cache:
   paths:
@@ -11,7 +15,7 @@ cache:
     - server/node_modules/
 
 install_dependencies:
-  stage: install_dependencies
+  stage: install
   cache:
     paths:
       - client/node_modules/
@@ -44,14 +48,31 @@ build_server:
     paths:
       - server/build
 
-testing:
+test_server:
+  services:
+    - name: mysql:latest
+      command: ["--default-authentication-plugin=mysql_native_password"]
+  stage: test
+  script:
+    - npm run test-server
+  needs:
+    - job: build_server
+      artifacts: false
+  cache:
+    paths:
+      - server/node_modules/
+    policy: pull
+  timeout: 30m
+
+test_client:
   stage: test
   script:
     - npm run test-client
-    - npm run test-server
+  needs:
+    - job: build_client
+      artifacts: false
   cache:
     paths:
       - client/node_modules/
-      - server/node_modules/
     policy: pull
-  dependencies: []
+  timeout: 30m

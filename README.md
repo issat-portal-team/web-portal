@@ -8,9 +8,23 @@ A web app built as an educational project for social nerding between book reader
 
 ### For server development
 
+#### Build
 1. `npm run install-server` to install dependencies
-2. `npm run start-server` to start the server
-3. `npm run build-server` to compile server code (ts)
+2. Create a .env file in ./server with the help of .env.example
+3. Manually create the database with the same name of the variable name `TYPEORM_DATABASE` in .env
+4. `npm run typeorm migration:run` to run the db migrations
+5. `npm run start-server` to start the server
+
+#### Generating a new migration through typeorm
+`npm run typeorm migration:generate -- -n MigrationName`
+
+#### Revert last migration through typeorm
+`npm run typeorm migration:revert`
+
+#### Tests
+1. `npm run install-server` to install dependencies
+2. Create a .env.test file in ./server with the help of .env.example
+3. `npm run test-server` to start the server
 
 ### For client development
 
