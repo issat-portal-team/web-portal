@@ -42,6 +42,10 @@ export const env = {
     google: {
       endPoint: getEnvVarOptional('GOOGLE_API_ENDPOINT'),
       apiKey: getEnvVarOptional('GOOGLE_API_KEY')
+    },
+    goodReads: {
+      endPoint: getEnvVarOptional('GOODREADS_API_ENDPOINT'),
+      apiKey: getEnvVarOptional('GOODREADS_API_KEY')
     }
   }
 }

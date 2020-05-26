@@ -4,10 +4,7 @@ import { IBookProvider } from './iBookProvider'
 import fetch from 'node-fetch'
 import { env } from '../../config'
 import { BookSearchDto } from './utils/bookSearchDto'
-
-type RequestParams = {
-  [key: string]: string
-}
+import { RequestParams } from './utils/requestParams'
 
 @Service({ id: BookProviderToken, multiple: true })
 export class GoogleBookProvider implements IBookProvider {
