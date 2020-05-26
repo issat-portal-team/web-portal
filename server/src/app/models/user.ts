@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, OneToMany } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 import { Exclude } from 'class-transformer'
 import { IsNotEmpty } from 'class-validator'
+import { UserBook } from './userbook'
 
 @Entity()
 export class User {
@@ -50,4 +51,7 @@ export class User {
     public async hashPassword (): Promise<void> {
       this.password = await User.hashPassword(this.password)
     }
+
+    @OneToMany(() => UserBook, ub => ub.user)
+    public userConnection!: Promise<UserBook[]>
 }
