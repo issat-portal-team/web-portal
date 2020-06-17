@@ -3,7 +3,6 @@ import { IsNotEmpty } from 'class-validator'
 import { UserBook } from './userbook'
 import { BookCreateDto } from '../providers/dtos/bookCreateDto'
 
-@Index(['providerId', 'providerName', 'isbn'], { unique: true })
 @Entity()
 export class Book {
     @PrimaryGeneratedColumn()
@@ -13,13 +12,13 @@ export class Book {
     @IsNotEmpty()
     public title!: string;
 
-    @Column({ default: null })
+    @Column({ nullable: true })
     public subtitle!: string;
 
-    @Column({ default: null, length: 5000 })
+    @Column({ nullable: true, length: 5000 })
     public description!: string;
 
-    @Column({ default: null, length: 5000 })
+    @Column({ nullable: true, length: 5000 })
     public imageLink!: string;
 
     @Column()
@@ -28,7 +27,7 @@ export class Book {
     @Column()
     public author!: string;
 
-    @Column({ default: null })
+    @Column({ nullable: true })
     public publishedDate!: Date;
 
     @Column()
