@@ -27,7 +27,8 @@ export class BookController {
     const book = await this.bookService.create(body.id, body.provider)
     if (book) {
       return {
-        id: book.id
+        id: book.id,
+        title: book.title
       }
     }
   }
