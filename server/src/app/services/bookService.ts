@@ -59,7 +59,6 @@ export class BookService {
       const bookFromProvider = provider.adaptGet(data)
       let book = await this.findByIsbn(bookFromProvider.isbn)
       if (!book) {
-        console.log(bookFromProvider)
         book = await this.bookRepository.save(Book.buildFromCreateBookDto(bookFromProvider))
       }
       return book

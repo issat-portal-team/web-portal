@@ -32,7 +32,7 @@ describe('/api/users', () => {
   test('POST: /books ', async (done) => {
     const response = await request(settings.app)
       .post('/api/books')
-    // Fragile test: if broke check if the id is actually still valid
+    // Fragile test: if broken check if the id is actually still valid
       .send({ id: 'kPmLDQAAQBAJ', provider: GoogleBookProvider.ProviderName })
       .expect('Content-Type', /json/)
       .expect(200)

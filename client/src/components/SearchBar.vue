@@ -45,12 +45,20 @@
                 </button>
 
                 <b-dropdown-item
-                  @click="addBookToLibrary(props.option)"
+                  @click="addBookToLibrary(props.option,0)"
                   class="add-list-item"
                   aria-role="listitem"
                 >Read</b-dropdown-item>
-                <b-dropdown-item class="add-list-item" aria-role="listitem">Reading</b-dropdown-item>
-                <b-dropdown-item class="add-list-item" aria-role="listitem">Finished</b-dropdown-item>
+                <b-dropdown-item
+                  @click="addBookToLibrary(props.option,1)"
+                  class="add-list-item"
+                  aria-role="listitem"
+                >Reading</b-dropdown-item>
+                <b-dropdown-item
+                  @click="addBookToLibrary(props.option,2)"
+                  class="add-list-item"
+                  aria-role="listitem"
+                >Finished</b-dropdown-item>
               </b-dropdown>
             </div>
           </div>
@@ -64,7 +72,9 @@
 import Vue from "vue";
 import debounce from "lodash/debounce";
 import moment from "moment";
-import { bookSearch, bookCreate } from "../api/books";
+import { bookSearch, bookCreate, bookAddLibrary } from "../api/books";
+import { UserModule } from "../store/modules/user";
+import { SnackbarProgrammatic as Snackbar } from "buefy";
 
 export default Vue.extend({
   name: "BookSearchBar" as string,
@@ -77,12 +87,31 @@ export default Vue.extend({
     };
   },
   methods: {
-    addBookToLibrary(item: any) {
+    addBookToLibrary(item: any, state: number) {
       console.log(item.id);
-      bookCreate(item.id, item.provider).then(res => {
-        console.log("Book id: " + res.data.id);
-        return res.data;
-      });
+      bookCreate(item.id, item.provider)
+        .then(res => {
+          console.log("Book id: " + res.data.id);
+          return res.data;
+        })
+        .then(book => {
+          if (UserModule.token) {
+            // If logged in
+            bookAddLibrary(book.id, UserModule.id, 0).then(res => {
+              Snackbar.open({
+                message: book.title + " added to your library",
+                type: "is-success",
+                position: "is-bottom"
+              });
+            });
+          } else {
+            Snackbar.open({
+              message: "You should login first",
+              type: "is-warning",
+              position: "is-bottom"
+            });
+          }
+        });
     },
     getAsyncData: debounce(function(this: any, name) {
       if (!name.length) {

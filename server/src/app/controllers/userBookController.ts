@@ -5,7 +5,7 @@ import { UserBookCreateRequest } from './requests/userBookCreateRequest'
 import { JsonController, Param, Body, Get, Post, Put, Delete } from 'routing-controllers'
 import { User } from '../models/user'
 
-@JsonController('/userBook')
+@JsonController('/library')
 export class UserBookController {
   constructor (
     private userBookService : UserBookService

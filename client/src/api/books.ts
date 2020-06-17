@@ -19,3 +19,12 @@ export const bookCreate = (id: string, provider: string): AxiosPromise<any> =>
         }
 
     })
+
+export const bookAddLibrary = (bookId: number, userId: string, state: number): AxiosPromise<any> =>
+    request({
+        url: '/library',
+        method: 'POST',
+        data: {
+            bookId, userId, state
+        }
+    })

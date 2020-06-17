@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, PrimaryColumn, OneToOne, JoinColumn, Index } from 'typeorm'
 import { Book } from './book'
 import { User } from './user'
 
 @Entity()
+@Index(['userId', 'bookId'], { unique: true })
 export class UserBook {
     @Column({ type: 'int' })
     public state!: number;
