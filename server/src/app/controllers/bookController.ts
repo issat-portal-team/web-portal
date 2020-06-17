@@ -3,6 +3,7 @@ import { BookService } from '../services/bookService'
 import { BookCreateRequest } from './requests/bookCreateRequest'
 import { Book } from '../models/book'
 import { SearchBookRequest } from './requests/searchBookRequest'
+import { BookCreateResponse } from './responses/bookCreateResponse'
 
 @JsonController('/books')
 export class BookController {
@@ -22,17 +23,12 @@ export class BookController {
   }
 
   @Post()
-  public create (@Body() body:BookCreateRequest): Promise<Book> {
-    const book = new Book()
-    book.id = body.id
-    book.title = body.title
-    book.subtitle = body.subtitle
-    book.description = body.description
-    book.imageLink = body.imageLink
-    book.pageCount = body.pageCount
-    book.author = body.author
-    book.publishedDate = body.publishedDate
-
-    return this.bookService.create(book)
+  public async create (@Body() body:BookCreateRequest): Promise<BookCreateResponse | undefined> {
+    const book = await this.bookService.create(body.id, body.provider)
+    if (book) {
+      return {
+        id: book.id
+      }
+    }
   }
 }

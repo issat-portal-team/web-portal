@@ -44,7 +44,11 @@
                   <b-icon :icon="active ? 'caret-up' : 'caret-down'"></b-icon>
                 </button>
 
-                <b-dropdown-item class="add-list-item" aria-role="listitem">Read</b-dropdown-item>
+                <b-dropdown-item
+                  @click="addBookToLibrary(props.option)"
+                  class="add-list-item"
+                  aria-role="listitem"
+                >Read</b-dropdown-item>
                 <b-dropdown-item class="add-list-item" aria-role="listitem">Reading</b-dropdown-item>
                 <b-dropdown-item class="add-list-item" aria-role="listitem">Finished</b-dropdown-item>
               </b-dropdown>
@@ -60,7 +64,7 @@
 import Vue from "vue";
 import debounce from "lodash/debounce";
 import moment from "moment";
-import { bookSearch } from "../api/books";
+import { bookSearch, bookCreate } from "../api/books";
 
 export default Vue.extend({
   name: "BookSearchBar" as string,
@@ -73,6 +77,13 @@ export default Vue.extend({
     };
   },
   methods: {
+    addBookToLibrary(item: any) {
+      console.log(item.id);
+      bookCreate(item.id, item.provider).then(res => {
+        console.log("Book id: " + res.data.id);
+        return res.data;
+      });
+    },
     getAsyncData: debounce(function(this: any, name) {
       if (!name.length) {
         this.data = [];

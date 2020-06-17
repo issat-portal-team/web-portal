@@ -9,3 +9,13 @@ export const bookSearch = (name: string): AxiosPromise<any> =>
             name
         }
     })
+
+export const bookCreate = (id: string, provider: string): AxiosPromise<any> =>
+    request({
+        url: '/books',
+        method: 'POST',
+        data: {
+            id, provider
+        }
+
+    })
