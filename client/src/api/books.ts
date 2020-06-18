@@ -28,3 +28,22 @@ export const bookAddLibrary = (bookId: number, userId: string, state: number): A
             bookId, userId, state
         }
     })
+
+export const libraryGet = (): AxiosPromise<any> =>
+    request({
+        url: '/library',
+        method: 'GET',
+        params: {
+        }
+    })
+
+
+export const bookChangeState = (bookId: number, state: number): AxiosPromise<any> =>
+    request({
+        url: '/library',
+        method: 'PUT',
+        data: {
+            bookId, state
+        }
+
+    })

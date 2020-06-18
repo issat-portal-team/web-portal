@@ -4,7 +4,6 @@ import { OrmRepository } from 'typeorm-typedi-extensions'
 import { UserBook } from '../models/userbook'
 import { Book } from '../models/book'
 import { UserBookRepository } from '../repositories/userBookRepository'
-import { User } from '../models/user'
 
 @Service()
 export class UserBookService {
@@ -30,12 +29,21 @@ export class UserBookService {
     })
   }
 
+  public getLibrary (userId: string): Promise< UserBook[] | undefined> {
+    return this.userBookRepository.find({ where: { userId }, relations: ['book'] })
+  }
+
   public findOne (userId: string, bookId: number): Promise< UserBook | undefined> {
     return this.userBookRepository.findOne({ userId, bookId })
   }
 
-  public update (state: number, userBook: UserBook): Promise<UserBook> {
+  public update (userId:string, bookId:number, state:number): Promise<UserBook> {
+    const userBook = new UserBook()
+    // TODO: Check that state is in range
+
     userBook.state = state
+    userBook.userId = userId
+    userBook.bookId = bookId
     return this.userBookRepository.save(userBook)
   }
 }

@@ -2,8 +2,9 @@ import { UserBook } from '../models/userbook'
 import { UserBookService } from '../services/userBookService'
 import { UserBookCreateRequest } from './requests/userBookCreateRequest'
 
-import { JsonController, Param, Body, Get, Post, Put, Delete } from 'routing-controllers'
+import { JsonController, Param, Body, Get, Post, Put, Delete, CurrentUser, Authorized } from 'routing-controllers'
 import { User } from '../models/user'
+import { UserBookUpdateRequest } from './requests/userBookUpdateRequest'
 
 @JsonController('/library')
 export class UserBookController {
@@ -12,7 +13,8 @@ export class UserBookController {
   ) {}
 
   @Post()
-  public create (@Body() body:UserBookCreateRequest): Promise<UserBook> {
+  @Authorized()
+  public create (@Body() body:UserBookCreateRequest, @CurrentUser() user?: User): Promise<UserBook> {
     const userBookConnection = new UserBook()
     userBookConnection.userId = body.userId
     userBookConnection.bookId = body.bookId
@@ -24,15 +26,17 @@ export class UserBookController {
   // public find (): Promise<UserBook[]> {
   // }
 
-  // @Get('/:id')
-  // public one (@Param('id') id: string): Promise<UserBook | undefined> {
-  //   return this.userBookService.findOne(id)
-  // }
+  @Get()
+  @Authorized()
+  public async Get (@CurrentUser() user?: User): Promise<any> {
+    const currentUser = user as User
+    const library = this.userBookService.getLibrary(currentUser.id)
+    return library
+  }
 
-  @Put('/:id')
-  public update (@Param('id') id: number, @Body() body: UserBook): Promise<UserBook> {
-    const userBook = new UserBook()
-    userBook.state = body.state
-    return this.userBookService.update(id, userBook)
+  @Put()
+  @Authorized()
+  public update (@Body() body: UserBookUpdateRequest, @CurrentUser() user?: User): Promise<UserBook> {
+    return this.userBookService.update((user as User).id, body.bookId, body.state)
   }
 }
