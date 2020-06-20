@@ -28,8 +28,8 @@ service.interceptors.response.use(
     (error) => {
         // Some example codes here:
         // code == 6001: username or password is incorrect
-        const res = error.response.data
-        if (res.failureCode) {
+        const res = error.response?.data
+        if (res && res.failureCode) {
             // Custom api error code
             if (res.failureCode === 6001) {
                 console.log("USERNAME INVALID")

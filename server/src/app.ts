@@ -12,7 +12,7 @@ import * as express from 'express'
 import { Connection } from 'typeorm/connection/Connection'
 import { authorizationChecker } from './app/auth/authorizationChecker'
 import { currentUserChecker } from './app/auth/currentUserChecker'
-import { runDbSeed } from '../tests/e2e/utils/seed'
+import { loadBooksProviders } from './app/providers/utils/bookProviderLoader'
 
 export interface BootstrapSettings {
     app: Application;
@@ -25,6 +25,7 @@ export default async (E2E_TEST = false): Promise<BootstrapSettings> => {
   routingUseContainer(Container)
   ormUseContainer(Container)
   classValidatorUseContainer(Container)
+  loadBooksProviders(Container)
 
   const conn = await loadDatabase()
 
