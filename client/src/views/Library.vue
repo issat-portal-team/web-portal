@@ -4,7 +4,6 @@
       <div class="column"></div>
       <div class="column is-three-fifths">
         <search-bar />
-
         <div class="library">
           <div class="card-scene">
             <Container
@@ -34,6 +33,9 @@
                       <div :class="card.props.className" :style="card.props.style">
                         <!-- <p>{{ card.img }}</p> -->
                         <img class="disable-interaction" :src="card.img" :title="card.title" />
+                        <div class="del-icon" @click="deleteBookFromLibrary(card.book)">
+                          <b-icon :icon="'trash-alt'" style="color: red;"></b-icon>
+                        </div>
                         <p>{{card.title}}</p>
                       </div>
                     </Draggable>
@@ -58,8 +60,9 @@ import SearchBar from "@/components/SearchBar.vue";
 import { generateItems, applyDrag, groupBy } from "../utils/helpers";
 
 import Vue from "vue";
-import { libraryGet, bookChangeState } from "../api/books";
+import { libraryGet, bookChangeState, bookDeleteLibrary } from "../api/books";
 import { SnackbarProgrammatic as Snackbar } from "buefy";
+import { UserModule } from "../store/modules/user";
 
 const columnNames = ["To Read", "Reading", "Read"];
 const columnIds: { [id: string]: number } = {
@@ -132,6 +135,19 @@ export default Vue.extend({
     };
   },
   methods: {
+    deleteBookFromLibrary(book: any) {
+      console.log("DELETE");
+      console.log(book);
+      bookDeleteLibrary(book.id, UserModule.id).then(res => {
+        this.$router.go();
+        Snackbar.open({
+          duration: 1800,
+          message: book.title + " deleted successfully",
+          type: "is-success",
+          position: "is-bottom"
+        });
+      });
+    },
     updateBookState(book: any, state: number) {
       bookChangeState(book.id, state);
       console.log("Try changing Book " + book.id + " => " + columnNames[state]);
@@ -307,6 +323,23 @@ export default Vue.extend({
   /* transform: rotateZ(0deg); */
   background-color: white;
   box-shadow: 3px 3px 10px 3px rgba(0, 0, 0, 0);
+}
+.smooth-dnd-container {
+  min-height: 350px;
+  min-width: 30px;
+}
+.del-icon:hover {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.del-icon {
+  transition: all 0.2s ease-in-out;
+  right: -5px;
+  bottom: -10px;
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
 }
 </style>
 

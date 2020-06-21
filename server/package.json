@@ -33,6 +33,7 @@
     "passport": "^0.4.1",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.8.1-alpha.2",
+    "simple-isbn": "^1.1.5",
     "ts-jest": "^25.2.1",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.24",

@@ -8,17 +8,18 @@ import { UserBookUpdateRequest } from './requests/userBookUpdateRequest'
 
 @JsonController('/library')
 export class UserBookController {
-  constructor (
-    private userBookService : UserBookService
-  ) {}
+  constructor(
+    private userBookService: UserBookService
+  ) { }
 
   @Post()
   @Authorized()
-  public create (@Body() body:UserBookCreateRequest, @CurrentUser() user?: User): Promise<UserBook> {
+  public create(@Body() body: UserBookCreateRequest, @CurrentUser() user?: User): Promise<UserBook> {
     const userBookConnection = new UserBook()
     userBookConnection.userId = body.userId
     userBookConnection.bookId = body.bookId
     userBookConnection.state = body.state
+    console.log(body.state)
 
     return this.userBookService.create(userBookConnection)
   }
@@ -28,7 +29,7 @@ export class UserBookController {
 
   @Get()
   @Authorized()
-  public async Get (@CurrentUser() user?: User): Promise<any> {
+  public async Get(@CurrentUser() user?: User): Promise<any> {
     const currentUser = user as User
     const library = this.userBookService.getLibrary(currentUser.id)
     return library
@@ -36,7 +37,13 @@ export class UserBookController {
 
   @Put()
   @Authorized()
-  public update (@Body() body: UserBookUpdateRequest, @CurrentUser() user?: User): Promise<UserBook> {
+  public update(@Body() body: UserBookUpdateRequest, @CurrentUser() user?: User): Promise<UserBook> {
     return this.userBookService.update((user as User).id, body.bookId, body.state)
+  }
+
+  @Delete()
+  @Authorized()
+  public delete(@Body() body: { bookId: number }, @CurrentUser() user?: User): Promise<any> {
+    return this.userBookService.delete((user as User).id, body.bookId)
   }
 }
