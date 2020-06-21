@@ -12,16 +12,16 @@
         >
           <NewsCard :news="news" />
         </div>
+        <div v-if="canLoadMore">
+          <LoadNews
+            class="load-button"
+            :loading="loading"
+            @loadMoreNews="loadMoreNews"
+          />
+        </div>
       </div>
       <div v-else>
         <NoNewsCard />
-      </div>
-      <div v-if="canLoadMore">
-        <LoadNews
-          class="load-button"
-          :loading="loading"
-          @loadMoreNews="loadMoreNews"
-        />
       </div>
     </div>
 
@@ -34,11 +34,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getNews } from "../api/news";
-import NewsCard from "../components/news/NewsCard.vue";
-import NoNewsCard from "../components/news/NoNewsCard.vue";
-import LoadNews from "../components/news/LoadNews.vue";
-import News from "../models/news";
+import { getNews } from "../../api/news";
+import NewsCard from "./NewsCard.vue";
+import NoNewsCard from "./NoNewsCard.vue";
+import LoadNews from "./LoadNews.vue";
+import News from "../../models/news";
 
 const newsNumberEachLoad = 10;
 export default Vue.extend({

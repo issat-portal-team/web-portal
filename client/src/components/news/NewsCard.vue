@@ -1,5 +1,5 @@
 <template>
-  <div class="card ">
+  <div class="card news-card">
     <div class="card-content media">
       <div class=" media-left">
         <figure class="center image is-128x128">
@@ -71,10 +71,10 @@ export default Vue.extend({
 .card .media:not(:last-child) {
   margin-bottom: 0px;
 }
-.card {
+.news-card {
   margin-bottom: 15px;
-  max-width: 590px;
-  max-height: 300px;
+  max-width: 590px !important;
+  max-height: 300px !important;
   border-radius: 15px;
 }
 .card-footer {

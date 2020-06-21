@@ -9,6 +9,7 @@
         <AuthTestCheck />
       </div>
     </div>
+    <News />
   </div>
 </template>
 
@@ -16,12 +17,14 @@
 // @ is an alias to /src
 import AuthTestCheck from "@/components/authentication/AuthTestCheck.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import News from '@/components/news/News.vue'
 
 export default {
   name: "Home",
   components: {
     AuthTestCheck,
-    SearchBar
+    SearchBar,
+    News
   }
 };
 </script>
