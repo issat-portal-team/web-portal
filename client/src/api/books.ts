@@ -29,6 +29,15 @@ export const bookAddLibrary = (bookId: number, userId: string, state: number): A
         }
     })
 
+export const bookDeleteLibrary = (bookId: number, userId: string): AxiosPromise<any> =>
+    request({
+        url: '/library',
+        method: 'DELETE',
+        data: {
+            bookId, userId
+        }
+    })
+
 export const libraryGet = (): AxiosPromise<any> =>
     request({
         url: '/library',

@@ -18,7 +18,12 @@
                 </b-field>
               </div>
               <div class="field">
-                <b-field :type="emailState.state" label="Email" label-position="on-border" :message="emailState.msg">
+                <b-field
+                  :type="emailState.state"
+                  label="Email"
+                  label-position="on-border"
+                  :message="emailState.msg"
+                >
                   <b-input v-model="signupForm.email"></b-input>
                 </b-field>
               </div>
@@ -53,6 +58,8 @@
 import Vue from "vue";
 import { UserModule } from "../../store/modules/user";
 import BackgroundIllustration from "./BackgroundIllustration.vue";
+import { SnackbarProgrammatic as Snackbar } from "buefy";
+
 export default Vue.extend({
   name: "LogIn" as string,
   components: {
@@ -77,15 +84,24 @@ export default Vue.extend({
       ) {
         UserModule.Register(this.signupForm).then(() => {
           // TODO: Redirect to initial visited page (redirect in query)
-          this.$router.push({
-            path: "/"
-          });
+          if (UserModule.token) {
+            this.$router.push({
+              path: "/"
+            });
+          } else {
+            Snackbar.open({
+              duration: 2500,
+              message: "Signup failed",
+              type: "is-danger",
+              position: "is-bottom"
+            });
+          }
         });
       }
     }
   },
   computed: {
-    emailState(): {state: string;msg: string} {
+    emailState(): { state: string; msg: string } {
       const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (this.signupForm.email) {
         if (emailRegEx.test(this.signupForm.email)) {

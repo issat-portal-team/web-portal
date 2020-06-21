@@ -89,6 +89,7 @@ export default Vue.extend({
   methods: {
     addBookToLibrary(item: any, state: number) {
       console.log(item.id);
+      console.log(state);
       bookCreate(item.id, item.provider)
         .then(res => {
           console.log("Book id: " + res.data.id);
@@ -97,7 +98,8 @@ export default Vue.extend({
         .then(book => {
           if (UserModule.token) {
             // If logged in
-            bookAddLibrary(book.id, UserModule.id, 0).then(res => {
+            bookAddLibrary(book.id, UserModule.id, state).then(res => {
+              this.$router.go(0);
               Snackbar.open({
                 message: book.title + " added to your library",
                 type: "is-success",

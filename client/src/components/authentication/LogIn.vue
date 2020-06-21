@@ -11,16 +11,16 @@
             <h2 class="title">Log In</h2>
           </div>
           <form @keyup.enter="logIn">
-          <div class="field">
-            <b-field label="Username" label-position="on-border">
-              <b-input v-model="loginForm.username"></b-input>
-            </b-field>
-          </div>
-          <div class="field">
-            <b-field label="Password" label-position="on-border">
-              <b-input type="password" v-model="loginForm.password" password-reveal></b-input>
-            </b-field>
-          </div>
+            <div class="field">
+              <b-field label="Username" label-position="on-border">
+                <b-input v-model="loginForm.username"></b-input>
+              </b-field>
+            </div>
+            <div class="field">
+              <b-field label="Password" label-position="on-border">
+                <b-input type="password" v-model="loginForm.password" password-reveal></b-input>
+              </b-field>
+            </div>
           </form>
           <div class="field">
             <p href="#" class="hover-effect">Forgot Password?</p>
@@ -49,6 +49,8 @@
 import Vue from "vue";
 import { UserModule } from "../../store/modules/user";
 import BackgroundIllustration from "./BackgroundIllustration.vue";
+import { SnackbarProgrammatic as Snackbar } from "buefy";
+
 export default Vue.extend({
   name: "LogIn" as string,
   components: {
@@ -67,10 +69,19 @@ export default Vue.extend({
       // TODO: username and password validation
       if (this.loginForm.username && this.loginForm.password) {
         UserModule.Login(this.loginForm).then(() => {
+          if (UserModule.token) {
+            this.$router.push({
+              path: "/"
+            });
+          } else {
+            Snackbar.open({
+              duration: 2500,
+              message: "Invalid username and password",
+              type: "is-danger",
+              position: "is-bottom"
+            });
+          }
           // TODO: Redirect to initial visited page (redirect in query)
-          this.$router.push({
-            path: "/"
-          });
         });
       }
     }
