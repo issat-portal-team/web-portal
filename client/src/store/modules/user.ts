@@ -90,7 +90,7 @@ class User extends VuexModule implements UserState {
         const username = userInfo.username
         email = email.trim()
 
-        register({ email, password, username }).then(({ data }) => {
+        await register({ email, password, username }).then(({ data }) => {
             console.log(data)
             setToken(data.token)
             this.SET_EMAIL(data.email)
