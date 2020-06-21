@@ -16,6 +16,8 @@ export class NewsController {
             newsItem.title = element.title
             newsItem.source = element.source
             newsItem.link = element.link
+            newsItem.description = element.description
+            newsItem.img = element.img
             newsItem.publishedDate = element.publishedDate
             news.push(newsItem)
         })
@@ -42,6 +44,8 @@ export class NewsController {
                 title: el.title,
                 link: el.link,
                 source: el.source,
+                description: el.description,
+                img: el.img,
                 publishedDate: el.publishedDate,
                 createdDate: el.createdDate
             }

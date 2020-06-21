@@ -11,6 +11,12 @@ export class ItemsCreateRequest {
     public link!: string
 
     @IsNotEmpty()
+    public description!: string
+
+    @IsNotEmpty()
+    public img!: string
+
+    @IsNotEmpty()
     @IsDateString()
     public publishedDate!: Date
 }
