@@ -99,7 +99,7 @@ export default Vue.extend({
           if (UserModule.token) {
             // If logged in
             bookAddLibrary(book.id, UserModule.id, state).then(res => {
-              this.$router.go();
+              this.$router.go(0);
               Snackbar.open({
                 message: book.title + " added to your library",
                 type: "is-success",

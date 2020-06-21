@@ -139,7 +139,7 @@ export default Vue.extend({
       console.log("DELETE");
       console.log(book);
       bookDeleteLibrary(book.id, UserModule.id).then(res => {
-        this.$router.go();
+        this.$router.go(0);
         Snackbar.open({
           duration: 1800,
           message: book.title + " deleted successfully",
