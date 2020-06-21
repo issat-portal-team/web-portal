@@ -1,7 +1,23 @@
 <template>
-  <div class="card">
-    <div class="card-content card-content-left title is-5">{{news.title}}</div>
-    <div class="card-footer flex-display">
+  <div class="card ">
+    <div class="card-content media">
+      <div class=" media-left">
+        <figure class="center image is-128x128">
+          <img
+            :src="news.img"
+            alt="Books News"
+          >
+        </figure>
+      </div>
+      <div class="media-content">
+        <div
+          class="title is-5 clickable"
+          @click="openNewsLink"
+        >{{news.title}}</div>
+        <div class="subtitle">{{news.description}}</div>
+      </div>
+    </div>
+    <div class="card-footer flex-display ">
       <div class="source-left">{{news.source}}</div>
       <div class="time-right">{{news.publishedDate | formatDate | dashToMinus}}</div>
     </div>
@@ -9,11 +25,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-//import { News } from "../../models/news";
+import Vue, { PropType } from "vue";
+import News from '../../models/news'
 export default Vue.extend({
   name: "NewsCard" as string,
-  props: ["news"],
+  props: {
+    "news":
+      Object as PropType<News>
+  },
   filters: {
     formatDate(date: string) {
       if (!date) return "";
@@ -22,18 +41,20 @@ export default Vue.extend({
       return formattedDate.toLocaleDateString();
     },
 
-    dashToMinus(date: string){
+    dashToMinus(date: string) {
       if (!date) return "";
       return date.split('/').join('-')
+    }
+  },
+  methods: {
+    openNewsLink() {
+      window.open(this.news.link, "_blanc")
     }
   }
 });
 </script>
 
 <style lang="scss">
-.card-content-left {
-  text-align: start;
-}
 .source-left {
   text-align: left;
 }
@@ -42,5 +63,21 @@ export default Vue.extend({
 }
 .flex-display {
   justify-content: space-between;
+}
+.clickable:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.card .media:not(:last-child) {
+  margin-bottom: 0px;
+}
+.card {
+  margin-bottom: 15px;
+  max-width: 590px;
+  max-height: 300px;
+  border-radius: 15px;
+}
+.card-footer {
+  padding: 15px;
 }
 </style>

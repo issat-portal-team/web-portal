@@ -21,6 +21,14 @@ export class News {
 
     @Column()
     @IsNotEmpty()
+    public description!: string
+
+    @Column()
+    @IsNotEmpty()
+    public img!: string
+
+    @Column()
+    @IsNotEmpty()
     @IsDateString()
     public publishedDate!: Date
 
