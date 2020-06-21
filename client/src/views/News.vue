@@ -1,19 +1,35 @@
 <template>
-  <section class="section">
+  <div class="center">
     <div class="title title-left">News</div>
-    <div v-if="checkNewsList">
-      <div v-for="news in newsList" :key="news.id">
-        <NewsCard :news="news" />
+    <div>
+      <div
+        v-if="checkNewsList"
+        class="news-container"
+      >
+        <div
+          v-for="news in newsList"
+          :key="news.id"
+        >
+          <NewsCard :news="news" />
+        </div>
+      </div>
+      <div v-else>
+        <NoNewsCard />
       </div>
       <div v-if="canLoadMore">
-        <LoadNews :loading="loading" @loadMoreNews="loadMoreNews" />
+        <LoadNews
+          class="load-button"
+          :loading="loading"
+          @loadMoreNews="loadMoreNews"
+        />
       </div>
     </div>
-    <div v-else>
-      <NoNewsCard />
-    </div>
-    <hr v-if="!canLoadMore" style="height:2px;border-width:0;color:gray;background-color:gray"/>
-  </section>
+
+    <hr
+      v-if="!canLoadMore"
+      style="height:2px;border-width:0;color:gray;background-color:gray"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -22,7 +38,7 @@ import { getNews } from "../api/news";
 import NewsCard from "../components/news/NewsCard.vue";
 import NoNewsCard from "../components/news/NoNewsCard.vue";
 import LoadNews from "../components/news/LoadNews.vue";
-//import { News } from "../models/news";
+import News from "../models/news";
 
 const newsNumberEachLoad = 10;
 export default Vue.extend({
@@ -34,7 +50,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      newsList: [] as any[], //eslint-disable-line
+      newsList: [] as News[], //eslint-disable-line
       page: 0 as number,
       canLoadMore: true as boolean,
       loading: false as boolean
@@ -60,9 +76,9 @@ export default Vue.extend({
       this.page++;
       getNews(this.page).then(({ data }) => {
         const { news } = data;
-        if (news.length < newsNumberEachLoad)this.canLoadMore = false;
-          this.newsList.push(...news);
-          this.loading = false;
+        if (news.length < newsNumberEachLoad) this.canLoadMore = false;
+        this.newsList.push(...news);
+        this.loading = false;
 
       });
     }
@@ -73,5 +89,28 @@ export default Vue.extend({
 <style lang="scss">
 .title-left {
   text-align: left;
+  margin-top: 20px;
+  margin-left: 25px;
+}
+
+.news-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.center {
+  margin: auto;
+}
+.no-margin {
+  margin: 0px;
+}
+
+.load-button {
+  margin: auto;
+  margin-bottom: 20px;
 }
 </style>
