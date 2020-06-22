@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="columns">
-      <div class="column"></div>
-      <div class="column is-three-fifths">
-        <search-bar />
+      <div class="column">
         <div class="library">
           <div class="card-scene">
             <Container
@@ -46,17 +44,12 @@
           </div>
         </div>
       </div>
-      <div class="column is-one-quarter">
-        <AuthTestCheck />
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import AuthTestCheck from "@/components/authentication/AuthTestCheck.vue";
 import { Container, Draggable } from "vue-smooth-dnd";
-import SearchBar from "@/components/SearchBar.vue";
 import { generateItems, applyDrag, groupBy } from "../utils/helpers";
 
 import Vue from "vue";
@@ -114,8 +107,6 @@ const scene = {
 export default Vue.extend({
   name: "Library" as string,
   components: {
-    AuthTestCheck,
-    SearchBar,
     Container,
     Draggable
   },

@@ -1,10 +1,41 @@
 <template>
   <div id="app">
+    <!-- <b-navbar class="nav">
+      <template slot="start">
+        <b-navbar-item href="/">Home</b-navbar-item>
+        <b-navbar-item href="/Library">Library</b-navbar-item>
+        <b-navbar-item href="/">Browse</b-navbar-item>
+        <b-navbar-item href="/book">Random</b-navbar-item>
 
-    <router-view/>
+        <search-bar />
+      </template>
+
+      <template slot="end"></template>
+    </b-navbar>-->
+    <nav class="custom-nav">
+      <a href="/">Home</a>
+      <a href="/library">Library</a>
+      <a href="/">Browse</a>
+      <a href="/book">Random</a>
+      <search-bar />
+      <AuthTestCheck />
+    </nav>
+    <router-view />
   </div>
 </template>
+<script lang="ts">
+import Vue from "vue";
+import SearchBar from "@/components/SearchBar.vue";
+import AuthTestCheck from "@/components/authentication/AuthTestCheck.vue";
 
+export default Vue.extend({
+  name: "App",
+  components: {
+    SearchBar,
+    AuthTestCheck
+  }
+});
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -14,15 +45,25 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+.custom-nav {
+  // padding: 16px;
+  // width: 100%;
+  // margin: 0;
+  // a {
+  //   font-weight: bold;
+  //   color: #2c3e50;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  //   &.router-link-exact-active {
+  //     color: #42b983;
+  //   }
+  // }
+  display: flex;
+  align-items: center;
+  & > a {
+    padding: 16px;
+    margin-right: 16px;
+    &:hover {
+      background: lightgray;
     }
   }
 }

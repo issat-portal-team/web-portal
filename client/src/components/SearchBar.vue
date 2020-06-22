@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="wrapper">
     <b-field id="main-book-search">
       <b-autocomplete
         :data="data"
@@ -89,7 +89,8 @@ export default Vue.extend({
   methods: {
     addBookToLibrary(item: any, state: number) {
       console.log(item.id);
-      console.log(state);
+      console.log(item.category);
+      window.localStorage.setItem("category", item.category);
       bookCreate(item.id, item.provider)
         .then(res => {
           console.log("Book id: " + res.data.id);
@@ -152,7 +153,7 @@ export default Vue.extend({
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap");
 #main-book-search {
-  margin-top: 20px;
+  margin-right: 64px;
 }
 .book-p {
   height: 128px;
@@ -177,5 +178,9 @@ export default Vue.extend({
 }
 .book-dropdown {
   min-width: 85px;
+}
+
+.wrapper {
+  flex: 1;
 }
 </style>
