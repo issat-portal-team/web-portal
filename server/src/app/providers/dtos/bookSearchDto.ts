@@ -1,7 +1,7 @@
 export interface BookSearchDto {
-    id:string;
-    isbn:string;
-    provider:string;
+    id: string;
+    isbn: string;
+    provider: string;
     title: string;
     subtitle: string;
     description: string;
@@ -9,4 +9,5 @@ export interface BookSearchDto {
     pageCount: number;
     authors: string[];
     publishedDate: Date;
+    category: string;
 }
