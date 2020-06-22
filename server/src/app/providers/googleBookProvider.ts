@@ -36,7 +36,7 @@ export class GoogleBookProvider implements IBookProvider {
       id: item.id,
       provider: GoogleBookProvider.ProviderName,
       isbn: isbn,
-      providerName: this.getProviderName()
+      providerName: this.getProviderName(),
     }
   }
 
@@ -63,7 +63,8 @@ export class GoogleBookProvider implements IBookProvider {
       publishedDate: item.volumeInfo.publishedDate,
       id: item.id,
       provider: GoogleBookProvider.ProviderName,
-      isbn: ''
+      isbn: '',
+      category: item.volumeInfo.categories[0] ?? ''
     }
   }
 
