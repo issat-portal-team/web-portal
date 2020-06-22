@@ -82,4 +82,15 @@ export class GoogleBookProvider implements IBookProvider {
     const res = await fetch(url)
     return res.json()
   }
+  getByCategory(cat?: string) {
+    let query = 'subject:'
+    if (!cat) {
+      const subjects = ['science', 'biography', 'thriller', 'fantasy', 'fiction', 'computer']
+      query += subjects[Math.floor(Math.random() * subjects.length)]
+    }
+    else {
+      query += cat
+    }
+    return this.search(query)
+  }
 }
