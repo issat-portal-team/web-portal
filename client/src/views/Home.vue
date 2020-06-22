@@ -65,7 +65,7 @@
 // @ is an alias to /src
 import AuthTestCheck from "@/components/authentication/AuthTestCheck.vue";
 import SearchBar from "@/components/SearchBar.vue";
-import News from '@/components/news/News.vue'
+import News from "@/components/news/News.vue";
 
 export default {
   name: "Home",

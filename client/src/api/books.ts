@@ -56,3 +56,12 @@ export const bookChangeState = (bookId: number, state: number): AxiosPromise<any
         }
 
     })
+
+export const bookChangeProgress = (bookId: number, progress: number): AxiosPromise<any> =>
+    request({
+        url: '/library/progress',
+        method: 'POST',
+        data: {
+            bookId, progress
+        }
+    })

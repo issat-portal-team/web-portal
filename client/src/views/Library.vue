@@ -37,6 +37,23 @@
                           <b-icon :icon="'trash-alt'" style="color: red;"></b-icon>
                         </div>
                         <p>{{card.title}}</p>
+                        <div>
+                          <b-field
+                            v-if="column.id==='column1'"
+                            @mousedown.native.stop
+                            style="overflow: visible !important"
+                          >
+                            <b-slider
+                              v-if="card.book"
+                              @change="val => sliderChange(val,card)"
+                              size="is-small"
+                              :min="getMin()"
+                              :max="getMax(card)"
+                              :custom-formatter="val => myFormatter(val,card)"
+                              :value="showProgress(card)"
+                            ></b-slider>
+                          </b-field>
+                        </div>
                       </div>
                     </Draggable>
                   </Container>
@@ -60,7 +77,12 @@ import SearchBar from "@/components/SearchBar.vue";
 import { generateItems, applyDrag, groupBy } from "../utils/helpers";
 
 import Vue from "vue";
-import { libraryGet, bookChangeState, bookDeleteLibrary } from "../api/books";
+import {
+  libraryGet,
+  bookChangeState,
+  bookDeleteLibrary,
+  bookChangeProgress
+} from "../api/books";
 import { SnackbarProgrammatic as Snackbar } from "buefy";
 import { UserModule } from "../store/modules/user";
 
@@ -135,6 +157,38 @@ export default Vue.extend({
     };
   },
   methods: {
+    showProgress(card: any): number {
+      const book = card.book;
+      return book.pageCount
+        ? Math.floor((card.progress * book.pageCount) / 100)
+        : card.progress;
+    },
+    myFormatter(val: number, card: any) {
+      return card.book.pageCount ? val + "/" + card.book.pageCount : val + "%";
+    },
+    getMin(): number {
+      return 0;
+    },
+    getMax(card: any): number {
+      const book = card.book;
+      return book.pageCount ?? 100;
+    },
+    sliderChange(val: number, card: any) {
+      console.log(card);
+      const book = card.book;
+      const percentage = book.pageCount
+        ? Math.floor((val / book.pageCount) * 100)
+        : val;
+      console.log("SEND " + percentage);
+      bookChangeProgress(book.id, percentage).then(res => {
+        Snackbar.open({
+          duration: 1800,
+          message: book.title + "changed progress to " + val,
+          type: "is-success",
+          position: "is-bottom"
+        });
+      });
+    },
     deleteBookFromLibrary(book: any) {
       console.log("DELETE");
       console.log(book);
@@ -227,7 +281,8 @@ export default Vue.extend({
           },
           img: tables[i][j].__book__.imageLink,
           book: tables[i][j].__book__,
-          title: tables[i][j].__book__.title
+          title: tables[i][j].__book__.title,
+          progress: tables[i][j].progress
         }))
       }));
 
