@@ -34,9 +34,33 @@ export class BookService {
     return results
   }
 
+  public async recommend (category: string): Promise<any | undefined> {
+    const providers = Container.getMany(BookProviderToken)
+    let results : BookSearchDto[] = []
+
+    for (const provider of providers) {
+      const asyncResult = await provider.getByCategory(category).then(data => {
+        console.log(data)
+        return provider.adaptSearch(data)
+      })
+
+      // For now just concat the results
+      // TODO: Filter/prioritize/Join the results
+      results = results.concat(asyncResult)
+    }
+    return results
+  }
+
+
+
+
+
+
   public findByBooktitle (booktitle: string) : Promise<Book | undefined> {
     return this.bookRepository.findOne({ title: booktitle })
   }
+
+
 
   public findAll (): Promise<Book []> {
     return this.bookRepository.find()
