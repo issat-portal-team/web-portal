@@ -4,6 +4,7 @@ import { BookCreateRequest } from './requests/bookCreateRequest'
 import { Book } from '../models/book'
 import { SearchBookRequest } from './requests/searchBookRequest'
 import { BookCreateResponse } from './responses/bookCreateResponse'
+import { RecommendRequest } from './requests/recommendRequest'
 
 @JsonController('/books')
 export class BookController {
@@ -14,6 +15,12 @@ export class BookController {
   @Get('/search')
   public async search (@QueryParams() query: SearchBookRequest): Promise<any> {
     const data = this.bookService.search(query.name)
+    return data
+  }
+
+  @Get('/recommended')
+  public async recommended (@QueryParams() query: RecommendRequest): Promise<any> {
+    const data = this.bookService.recommend(query.name)
     return data
   }
 

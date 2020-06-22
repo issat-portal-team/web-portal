@@ -82,4 +82,16 @@ export class GoodReadsBookProvider implements IBookProvider {
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     return fetch(url).then(res => res.text()).then(res => xml2js.parseStringPromise(res))
   }
+
+  getByCategory(cat?: string) {
+    let query = 'subject:'
+    if (!cat) {
+      const subjects = ['science', 'biography', 'thriller', 'fantasy', 'fiction', 'computer']
+      query += subjects[Math.floor(Math.random() * subjects.length)]
+    }
+    else {
+      query += cat
+    }
+    return this.search(query)
+  }
 }
