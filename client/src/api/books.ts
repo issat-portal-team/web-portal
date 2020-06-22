@@ -9,6 +9,14 @@ export const bookSearch = (name: string): AxiosPromise<any> =>
             name
         }
     })
+export const bookRecommended = (name: string): AxiosPromise<any> =>
+    request({
+        url: '/books/recommended',
+        method: 'GET',
+        params: {
+            name
+        }
+    })
 
 export const bookCreate = (id: string, provider: string): AxiosPromise<any> =>
     request({
