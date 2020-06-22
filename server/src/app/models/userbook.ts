@@ -8,6 +8,9 @@ export class UserBook {
     @Column({ type: 'int' })
     public state!: number;
 
+    @Column({ type: "tinyint", width: 200, default: 0 })
+    public progress!: number;
+
     @PrimaryGeneratedColumn('uuid')
     public userId!: string;
 

@@ -5,6 +5,8 @@ import { UserBookCreateRequest } from './requests/userBookCreateRequest'
 import { JsonController, Param, Body, Get, Post, Put, Delete, CurrentUser, Authorized } from 'routing-controllers'
 import { User } from '../models/user'
 import { UserBookUpdateRequest } from './requests/userBookUpdateRequest'
+import { UserBookProgressUpdateRequest } from './requests/userBookProgressUpdateRequest'
+
 
 @JsonController('/library')
 export class UserBookController {
@@ -39,6 +41,12 @@ export class UserBookController {
   @Authorized()
   public update(@Body() body: UserBookUpdateRequest, @CurrentUser() user?: User): Promise<UserBook> {
     return this.userBookService.update((user as User).id, body.bookId, body.state)
+  }
+
+  @Post('/progress')
+  @Authorized()
+  public updateProgress(@Body() body: UserBookProgressUpdateRequest, @CurrentUser() user?: User): Promise<UserBook> {
+    return this.userBookService.updateProgress((user as User).id, body.bookId, body.progress)
   }
 
   @Delete()

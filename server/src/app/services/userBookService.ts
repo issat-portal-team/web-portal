@@ -51,4 +51,10 @@ export class UserBookService {
     userBook.bookId = bookId
     return this.userBookRepository.save(userBook)
   }
+
+  public async updateProgress(userId: string, bookId: number, progress: number): Promise<UserBook> {
+    const userBook = (await this.findOne(userId, bookId)) as UserBook
+    userBook.progress = progress
+    return this.userBookRepository.save(userBook)
+  }
 }
