@@ -7,6 +7,7 @@
         field="title"
         :loading="isFetching"
         @typing="getAsyncData"
+        @select="option => selectBook(option)"
         size="is-medium"
         clearable
         max-height="700px"
@@ -87,6 +88,14 @@ export default Vue.extend({
     };
   },
   methods: {
+    selectBook(item: any) {
+      this.$router.push({
+        path: "/book",
+        query: {
+          book: item
+        }
+      });
+    },
     addBookToLibrary(item: any, state: number) {
       console.log(item.id);
       console.log(item.category);

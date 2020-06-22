@@ -373,6 +373,7 @@ export default Vue.extend({
 .smooth-dnd-container {
   min-height: 350px;
   min-width: 30px;
+  margin: 0px auto;
 }
 .del-icon:hover {
   transform: scale(1.5);
