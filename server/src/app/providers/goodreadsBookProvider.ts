@@ -9,38 +9,38 @@ import fetch from 'node-fetch'
 import { Service } from 'typedi'
 import { BookCreateDto } from './dtos/bookCreateDto'
 
-function toAuthorsArray (item: any) {
+function toAuthorsArray(item: any) {
   return item.name[0]
 }
-function extractPublishDate (item:any) {
+function extractPublishDate(item: any) {
   let date = item.original_publication_year[0]._
   if (item.original_publication_month[0]._) {
     date = date + '-' +
-    item.original_publication_month[0]._
+      item.original_publication_month[0]._
   }
   if (item.original_publication_day[0]._) {
     date = date + '-' +
-    item.original_publication_day[0]._
+      item.original_publication_day[0]._
   }
   return date
 }
 
 @Service({ id: BookProviderToken, multiple: true })
 export class GoodReadsBookProvider implements IBookProvider {
-  constructor (
+  constructor(
   ) { }
 
-  adaptGet (data: any): BookCreateDto {
+  adaptGet(data: any): BookCreateDto {
     throw new Error('Method not implemented.')
   }
 
-  getProviderName (): string {
+  getProviderName(): string {
     return GoodReadsBookProvider.ProviderName
   }
 
-  static ProviderName:string = 'GoodReads'
+  static ProviderName: string = 'GoodReads'
 
-  private toBookSearchDto (item: any): BookSearchDto {
+  private toBookSearchDto(item: any): BookSearchDto {
     return {
       title: item.best_book[0].title[0],
       authors: item.best_book[0].author.map(toAuthorsArray),
@@ -51,15 +51,16 @@ export class GoodReadsBookProvider implements IBookProvider {
       publishedDate: new Date(extractPublishDate(item)),
       id: item.best_book[0].id[0]._,
       provider: GoodReadsBookProvider.ProviderName,
-      isbn: ''
+      isbn: '',
+      category: ''
     }
   }
 
-  adaptSearch (data: any): Promise<any> {
+  adaptSearch(data: any): Promise<any> {
     return data.GoodreadsResponse.search[0].results[0].work.map(this.toBookSearchDto)
   }
 
-  async getBookById (id: string): Promise<any> {
+  async getBookById(id: string): Promise<any> {
     var url = new URL((env.providers.goodReads.endPoint as string).concat('/book/show'))
     const params: RequestParams = {
       key: env.providers.goodReads.apiKey as string,
@@ -72,7 +73,7 @@ export class GoodReadsBookProvider implements IBookProvider {
     return null
   }
 
-  async search (query: string) {
+  async search(query: string) {
     var url = new URL((env.providers.goodReads.endPoint as string).concat('/search/index.xml'))
     const params: RequestParams = {
       key: env.providers.goodReads.apiKey as string,
