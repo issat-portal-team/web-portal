@@ -64,7 +64,7 @@ export class GoogleBookProvider implements IBookProvider {
       id: item.id,
       provider: GoogleBookProvider.ProviderName,
       isbn: '',
-      category: item.volumeInfo.categories[0] ?? ''
+      category: item.volumeInfo.categories && item.volumeInfo.categories[0] ? item.volumeInfo.categories[0] : ''
     }
   }
 
