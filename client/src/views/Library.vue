@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="columns">
-      <div class="column"></div>
-      <div class="column is-three-fifths">
-        <search-bar />
-
+      <div class="column">
         <div class="library">
           <div class="card-scene">
             <Container
@@ -34,7 +31,27 @@
                       <div :class="card.props.className" :style="card.props.style">
                         <!-- <p>{{ card.img }}</p> -->
                         <img class="disable-interaction" :src="card.img" :title="card.title" />
+                        <div class="del-icon" @click="deleteBookFromLibrary(card.book)">
+                          <b-icon :icon="'trash-alt'" style="color: red;"></b-icon>
+                        </div>
                         <p>{{card.title}}</p>
+                        <div>
+                          <b-field
+                            v-if="column.id==='column1'"
+                            @mousedown.native.stop
+                            style="overflow: visible !important"
+                          >
+                            <b-slider
+                              v-if="card.book"
+                              @change="val => sliderChange(val,card)"
+                              size="is-small"
+                              :min="getMin()"
+                              :max="getMax(card)"
+                              :custom-formatter="val => myFormatter(val,card)"
+                              :value="showProgress(card)"
+                            ></b-slider>
+                          </b-field>
+                        </div>
                       </div>
                     </Draggable>
                   </Container>
@@ -44,22 +61,23 @@
           </div>
         </div>
       </div>
-      <div class="column is-one-quarter">
-        <AuthTestCheck />
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import AuthTestCheck from "@/components/authentication/AuthTestCheck.vue";
 import { Container, Draggable } from "vue-smooth-dnd";
-import SearchBar from "@/components/SearchBar.vue";
 import { generateItems, applyDrag, groupBy } from "../utils/helpers";
 
 import Vue from "vue";
-import { libraryGet, bookChangeState } from "../api/books";
+import {
+  libraryGet,
+  bookChangeState,
+  bookDeleteLibrary,
+  bookChangeProgress
+} from "../api/books";
 import { SnackbarProgrammatic as Snackbar } from "buefy";
+import { UserModule } from "../store/modules/user";
 
 const columnNames = ["To Read", "Reading", "Read"];
 const columnIds: { [id: string]: number } = {
@@ -111,8 +129,6 @@ const scene = {
 export default Vue.extend({
   name: "Library" as string,
   components: {
-    AuthTestCheck,
-    SearchBar,
     Container,
     Draggable
   },
@@ -132,6 +148,51 @@ export default Vue.extend({
     };
   },
   methods: {
+    showProgress(card: any): number {
+      const book = card.book;
+      return book.pageCount
+        ? Math.floor((card.progress * book.pageCount) / 100)
+        : card.progress;
+    },
+    myFormatter(val: number, card: any) {
+      return card.book.pageCount ? val + "/" + card.book.pageCount : val + "%";
+    },
+    getMin(): number {
+      return 0;
+    },
+    getMax(card: any): number {
+      const book = card.book;
+      return book.pageCount ?? 100;
+    },
+    sliderChange(val: number, card: any) {
+      console.log(card);
+      const book = card.book;
+      const percentage = book.pageCount
+        ? Math.floor((val / book.pageCount) * 100)
+        : val;
+      console.log("SEND " + percentage);
+      bookChangeProgress(book.id, percentage).then(res => {
+        Snackbar.open({
+          duration: 1800,
+          message: book.title + "changed progress to " + val,
+          type: "is-success",
+          position: "is-bottom"
+        });
+      });
+    },
+    deleteBookFromLibrary(book: any) {
+      console.log("DELETE");
+      console.log(book);
+      bookDeleteLibrary(book.id, UserModule.id).then(res => {
+        this.$router.go(0);
+        Snackbar.open({
+          duration: 1800,
+          message: book.title + " deleted successfully",
+          type: "is-success",
+          position: "is-bottom"
+        });
+      });
+    },
     updateBookState(book: any, state: number) {
       bookChangeState(book.id, state);
       console.log("Try changing Book " + book.id + " => " + columnNames[state]);
@@ -211,7 +272,8 @@ export default Vue.extend({
           },
           img: tables[i][j].__book__.imageLink,
           book: tables[i][j].__book__,
-          title: tables[i][j].__book__.title
+          title: tables[i][j].__book__.title,
+          progress: tables[i][j].progress
         }))
       }));
 
@@ -307,6 +369,24 @@ export default Vue.extend({
   /* transform: rotateZ(0deg); */
   background-color: white;
   box-shadow: 3px 3px 10px 3px rgba(0, 0, 0, 0);
+}
+.smooth-dnd-container {
+  min-height: 350px;
+  min-width: 30px;
+  margin: 0px auto;
+}
+.del-icon:hover {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.del-icon {
+  transition: all 0.2s ease-in-out;
+  right: -5px;
+  bottom: -10px;
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
 }
 </style>
 

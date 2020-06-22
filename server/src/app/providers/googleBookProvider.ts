@@ -2,6 +2,7 @@ import { Service } from 'typedi'
 import { BookProviderToken } from './utils/bookProviderToken'
 import { IBookProvider } from './iBookProvider'
 import fetch from 'node-fetch'
+import * as isbnCommands from 'simple-isbn'
 import { env } from '../../config'
 import { BookSearchDto } from './dtos/bookSearchDto'
 import { RequestParams } from './utils/requestParams'
@@ -9,10 +10,21 @@ import { BookCreateDto } from './dtos/bookCreateDto'
 
 @Service({ id: BookProviderToken, multiple: true })
 export class GoogleBookProvider implements IBookProvider {
-  constructor (
+  constructor(
   ) { }
 
-  adaptGet (item: any): BookCreateDto {
+  adaptGet(item: any): BookCreateDto {
+    let isbn13 = item.volumeInfo.industryIdentifiers.find((e: any) => e.type === 'ISBN_13')
+    let isbn10 = item.volumeInfo.industryIdentifiers.find((e: any) => e.type === 'ISBN_10')
+    let isbn = ''
+    if (isbn13) {
+      isbn = isbn13.identifier
+    } else if (isbn10) {
+      isbn = isbnCommands.isbn.calculateIsbn13Code(isbn10.identifier)
+    } else {
+      isbn = item.volumeInfo.industryIdentifiers.find((e: any) => e.type === 'OTHER')['identifier']
+    }
+    console.log(isbn)
     return {
       title: item.volumeInfo.title,
       authors: item.volumeInfo.authors,
@@ -23,25 +35,24 @@ export class GoogleBookProvider implements IBookProvider {
       publishedDate: item.volumeInfo.publishedDate,
       id: item.id,
       provider: GoogleBookProvider.ProviderName,
-      isbn: item.volumeInfo.industryIdentifiers.find((e: any) => e.type === 'ISBN_13').identifier,
-      providerName: this.getProviderName()
+      isbn: isbn,
+      providerName: this.getProviderName(),
     }
   }
 
-  async getBookById (id: string): Promise<any> {
+  async getBookById(id: string): Promise<any> {
     var url = new URL((env.providers.google.endPoint as string) + '/' + id)
     const res = await fetch(url)
     return res.json()
   }
 
-  getProviderName (): string {
+  getProviderName(): string {
     return GoogleBookProvider.ProviderName
   }
 
-  static ProviderName:string = 'Google'
+  static ProviderName: string = 'Google'
 
-  private toBookSearchDto (item: any): BookSearchDto {
-    console.log(item.volumeInfo)
+  private toBookSearchDto(item: any): BookSearchDto {
     return {
       title: item.volumeInfo.title,
       authors: item.volumeInfo.authors,
@@ -52,15 +63,16 @@ export class GoogleBookProvider implements IBookProvider {
       publishedDate: item.volumeInfo.publishedDate,
       id: item.id,
       provider: GoogleBookProvider.ProviderName,
-      isbn: ''
+      isbn: '',
+      category: item.volumeInfo.categories && item.volumeInfo.categories[0] ? item.volumeInfo.categories[0] : ''
     }
   }
 
-  adaptSearch (data: any): Promise<BookSearchDto> {
+  adaptSearch(data: any): Promise<BookSearchDto> {
     return data.items.map(this.toBookSearchDto)
   }
 
-  async search (query: string) {
+  async search(query: string) {
     var url = new URL(env.providers.google.endPoint as string)
     const params: RequestParams = {
       key: env.providers.google.apiKey as string,
@@ -69,5 +81,16 @@ export class GoogleBookProvider implements IBookProvider {
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     const res = await fetch(url)
     return res.json()
+  }
+  getByCategory(cat?: string) {
+    let query = 'subject:'
+    if (!cat) {
+      const subjects = ['science', 'biography', 'thriller', 'fantasy', 'fiction', 'computer']
+      query += subjects[Math.floor(Math.random() * subjects.length)]
+    }
+    else {
+      query += cat
+    }
+    return this.search(query)
   }
 }

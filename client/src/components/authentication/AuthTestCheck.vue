@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div style="display: flex" >
     <div class="card-content">
       <div class="media">
         <div class="media-left">

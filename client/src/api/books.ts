@@ -9,6 +9,14 @@ export const bookSearch = (name: string): AxiosPromise<any> =>
             name
         }
     })
+export const bookRecommended = (name: string): AxiosPromise<any> =>
+    request({
+        url: '/books/recommended',
+        method: 'GET',
+        params: {
+            name
+        }
+    })
 
 export const bookCreate = (id: string, provider: string): AxiosPromise<any> =>
     request({
@@ -29,6 +37,15 @@ export const bookAddLibrary = (bookId: number, userId: string, state: number): A
         }
     })
 
+export const bookDeleteLibrary = (bookId: number, userId: string): AxiosPromise<any> =>
+    request({
+        url: '/library',
+        method: 'DELETE',
+        data: {
+            bookId, userId
+        }
+    })
+
 export const libraryGet = (): AxiosPromise<any> =>
     request({
         url: '/library',
@@ -46,4 +63,13 @@ export const bookChangeState = (bookId: number, state: number): AxiosPromise<any
             bookId, state
         }
 
+    })
+
+export const bookChangeProgress = (bookId: number, progress: number): AxiosPromise<any> =>
+    request({
+        url: '/library/progress',
+        method: 'POST',
+        data: {
+            bookId, progress
+        }
     })
