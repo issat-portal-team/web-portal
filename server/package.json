@@ -36,7 +36,7 @@
     "simple-isbn": "^1.1.5",
     "ts-jest": "^25.2.1",
     "typedi": "^0.8.0",
-    "typeorm": "^0.2.24",
+    "typeorm": "^0.2.25",
     "typeorm-typedi-extensions": "^0.2.3",
     "uuid": "^7.0.3",
     "xml2js": "^0.4.23"
